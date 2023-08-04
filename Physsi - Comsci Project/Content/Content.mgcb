@@ -44,6 +44,13 @@
 /processorParam:TextureFormat=Compressed
 /build:File.spritefont;Physsi.spritefont
 
+#begin Large_Button.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Large_Button.spritefont
+
 #begin Options button.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -67,4 +74,23 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:pixil-frame-0.png
+
+#begin Quit_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Quit_Button.png
+
+#begin Small_Button.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Small_Button.spritefont
 
