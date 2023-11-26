@@ -1,4 +1,4 @@
-So, for year 12 I must create a project. I came up with Physsi - a physics engine designed for teachers of GCSE students.
+So, for A-Level Computer Science I must create a project. I came up with Physsi - a physics engine designed for teachers of GCSE students.
 
 The link to my project writeup is below :
 
