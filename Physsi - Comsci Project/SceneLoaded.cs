@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Physsi___Comsci_Project
 {
@@ -9,11 +10,14 @@ namespace Physsi___Comsci_Project
 
 
 
-        private string scene_Loaded = "HOMESCREEN";
+        public static string scene_Loaded = "Home";
+
+       
 
         public void scene_list_load()
         {
-            scene_List[0] = "HOMESCREEN";
+            scene_Loaded = "HOME";
+            scene_List[0] = "HOME";
             scene_List[1] = "OPTIONS";
 
             return;

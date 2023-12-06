@@ -8,6 +8,7 @@ using System.Reflection.Metadata.Ecma335;
 
 
 
+
 namespace Physsi___Comsci_Project
 {
     public class Main : Game
@@ -123,8 +124,12 @@ namespace Physsi___Comsci_Project
 
             // use Content to load game content here
 
+            if (SceneLoaded.scene_Loaded == "HOME")
+            {
+                Load_Home(_spriteBatch);
+            }
 
-          
+            Load_Home(_spriteBatch);
 
 
             // LOAD OPTIONS CONTENT -------------------------------------------------------------
