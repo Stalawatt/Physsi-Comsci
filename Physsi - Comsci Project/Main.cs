@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
-
-
-
+using System.Runtime.CompilerServices;
 
 namespace Physsi___Comsci_Project
 {
@@ -20,7 +20,7 @@ namespace Physsi___Comsci_Project
 
         
 
-        // HOMESCREEN SPRITES LOADING TEXTURE2D
+        // HOMESCREEN SPRITES LOADING TEXTURE2D AND OTHER VARIABLES
         
 
         // --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -88,23 +88,28 @@ namespace Physsi___Comsci_Project
 
         //  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        // INITIALISE RIGIDBODY EDITOR VARIABLES
+
+        private Texture2D Background; // background for the scene editor area
+        private Texture2D Background_Selector; // background for the items selector
+        private Texture2D Option_Button; // texture for button that opens the options page
+        private Texture2D Start_Button; // texture for button that starts the simulation
+        private Dictionary<string,Texture2D> Items_Dict = new Dictionary<string,Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
+        
+
 
 
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = true; // make mouse visible while in the program
 
         }
 
         protected override void Initialize()
         {
-            // initialise classes
-
-
-
-
+           
             // CHANGE TO FULLSCREEN FOR ALL SCENES
 
             _graphics.ToggleFullScreen();// make so that it isnt a fullscreen window, but rather fullscreen
@@ -126,29 +131,54 @@ namespace Physsi___Comsci_Project
 
             if (SceneLoaded.scene_Loaded == "HOME")
             {
-                Load_Home(_spriteBatch);
+                Load_Home(); // Loads the textures for the homescreen
+            } else if (SceneLoaded.scene_Loaded == "OPTIONS")
+            {
+                Load_Options();
+            } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR") 
+            {
+                Load_RigidBody_Editor();
             }
 
-            Load_Home(_spriteBatch);
-
-
-            // LOAD OPTIONS CONTENT -------------------------------------------------------------
-
 
         }
 
-        protected void Load_Home(SpriteBatch _spriteBatch )
+        // Load content for the homepage
+
+        protected void Load_Home()
         {
             // INITIALISE TEXTURES FROM PASSED FILENAME (PNG IMAGES)
-            RigidAndSoft_Button = Content.Load<Texture2D>("1000x174 Rigidbody Button"); // Button sprite for the Large buttons (Rigid-Body and Soft-Body buttons)
-            Options_Button = Content.Load<Texture2D>("Options button"); // Button sprite for the Options button
-            Quit_Button = Content.Load<Texture2D>("Quit_Button"); // Button sprite for Quit button
+            RigidAndSoft_Button = Content.Load<Texture2D>("Homescreen/1000x174 Rigidbody Button"); // Button sprite for the Large buttons (Rigid-Body and Soft-Body buttons)
+            Options_Button = Content.Load<Texture2D>("Homescreen/Options button"); // Button sprite for the Options button
+            Quit_Button = Content.Load<Texture2D>("Homescreen/Quit_Button"); // Button sprite for Quit button
 
             // Initialise Fonts
-            Logo_Font = Content.Load<SpriteFont>("Physsi"); // Load font from Physsi.spritefont to use for the title
-            Large_Button_Font = Content.Load<SpriteFont>("Large_Button"); // Load font from Large_Button.spritefont to use for Rigid/Soft -Body buttons
-            Small_Button_Font = Content.Load<SpriteFont>("Small_Button"); // Load font from Small_Button.spritefont to use for Quit and Options buttons
+            Logo_Font = Content.Load<SpriteFont>("Homescreen/Physsi"); // Load font from Physsi.spritefont to use for the title
+            Large_Button_Font = Content.Load<SpriteFont>("Homescreen/Large_Button"); // Load font from Large_Button.spritefont to use for Rigid/Soft -Body buttons
+            Small_Button_Font = Content.Load<SpriteFont>("Homescreen/Small_Button"); // Load font from Small_Button.spritefont to use for Quit and Options buttons
         }
+
+        // Load content for the options page
+
+        protected void Load_Options()
+        {
+            // Load content for all the options]
+            
+
+
+        }
+
+        protected void Load_RigidBody_Editor() 
+        {
+            // Load content for the rigidbody editor
+            
+            // private Texture2D Background_Selector; // background for the items selector
+            // private Texture2D Option_Button; // texture for button that opens the options page
+            // private Texture2D Start_Button; // texture for button that starts the simulation
+            // private Dictionary<string, Texture2D> Items_Dict = new Dictionary<string, Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
+
+            Background = Content.Load<Texture2D>("RigidBody_Editor/Background");
+    }
 
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
@@ -203,9 +233,7 @@ namespace Physsi___Comsci_Project
 
             _spriteBatch.End();
 
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
+            base.Draw(gameTime); // draw the code to the screen
         }
 
 

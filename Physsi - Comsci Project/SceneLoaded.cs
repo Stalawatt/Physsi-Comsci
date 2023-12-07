@@ -6,30 +6,30 @@ namespace Physsi___Comsci_Project
 {
     public class SceneLoaded 
     {
-        private string[] scene_List = new string[5];
+        private string[] scene_List = new string[5]; // scenes possible to be loaded
 
 
 
-        public static string scene_Loaded = "Home";
+        public static string scene_Loaded = "Home"; // currently loaded scene
 
        
 
-        public void scene_list_load()
+        public void scene_list_load() // load scenes into the scene_List array
         {
-            scene_Loaded = "HOME";
             scene_List[0] = "HOME";
             scene_List[1] = "OPTIONS";
-
+            scene_List[2] = "RIGIDBODY_EDITOR";
             return;
         }
 
-        public void replace_loaded_scene(string scene)
+        public void replace_loaded_scene(string scene) // change scene currently loaded
         {
             scene_Loaded = scene;
+            check_errors();
             return;
         }
 
-        public void check_errors()
+        public void check_errors() // check for errors in loading
         {
             if (scene_Loaded == null)
             {
