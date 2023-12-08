@@ -39,13 +39,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Homescreen/File.spritefont
 
-#begin Homescreen/File.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Homescreen/File.spritefont
-
 #begin Homescreen/Large_Button.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -138,6 +131,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:RigidBody_Editor/Background.png
+
+#begin RigidBody_Editor/Item.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:RigidBody_Editor/Item.spritefont
 
 #begin RigidBody_Editor/Options_Button.png
 /importer:TextureImporter

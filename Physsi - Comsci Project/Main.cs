@@ -17,27 +17,6 @@ namespace Physsi___Comsci_Project
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-      
-
-        
-
-        
-
-
-
-        //  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        // INITIALISE RIGIDBODY EDITOR VARIABLES
-
-        private Texture2D Background_RB; // background for the scene editor area
-        private Texture2D Background_Selector_RB; // background for the items selector
-        private Texture2D Option_Button_RB; // texture for button that opens the options page
-        private Texture2D Start_Button_RB; // texture for button that starts the simulation
-        private Dictionary<string,Texture2D> Items_Dict_RB = new Dictionary<string,Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
-        
-
-
-
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -78,7 +57,7 @@ namespace Physsi___Comsci_Project
                 Load_Options();
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR") 
             {
-                Load_RigidBody_Editor();
+                RigidBody_Editor.Load_RigidBody_Editor(Content);
             }
 
 
@@ -93,26 +72,7 @@ namespace Physsi___Comsci_Project
 
 
         }
-        // RIGIDBODY SCENE --------------------------------------------------------------------------------------------------
-        protected void Load_RigidBody_Editor() 
-        {
-            // Load content for the rigidbody editor
-
-            Background_RB = Content.Load<Texture2D>("RigidBody_Editor/Background");
-            Option_Button_RB = Content.Load<Texture2D>("RigidBody_Editor/Options_Button");
-            Start_Button_RB = Content.Load<Texture2D>("RigidBody_Editor/Start_Button");
-            Items_Dict_RB.Add("square",Content.Load<Texture2D>("RigidBody_Editor/Square_Item"));
-        }
-
-        protected void Draw_RigidBody()
-        {
-            Draw_RigidBody_Sprite();
-        }
-
-        protected void Draw_RigidBody_Sprite()
-        {
-            _spriteBatch.Draw(Background_RB, new Vector2(0,0), Color.White);
-        }
+        
 
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
@@ -148,7 +108,8 @@ namespace Physsi___Comsci_Project
 
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
             {
-                Draw_RigidBody();
+                
+                RigidBody_Editor.Draw_RigidBody(_spriteBatch);
             }
             
 
@@ -175,7 +136,7 @@ namespace Physsi___Comsci_Project
             if (clicked_code == 0)
             {
                 // send user to rigid-body editor scene
-                Load_RigidBody_Editor();
+                RigidBody_Editor.Load_RigidBody_Editor(Content);
                 ChangeScene.changeTo("RIGIDBODY_EDITOR");
 
             } else if (clicked_code == 1)
