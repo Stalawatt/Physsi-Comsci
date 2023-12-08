@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -132,6 +133,7 @@ namespace Physsi___Comsci_Project
             if (SceneLoaded.scene_Loaded == "HOME")
             {
                 Load_Home(); // Loads the textures for the homescreen
+                
             } else if (SceneLoaded.scene_Loaded == "OPTIONS")
             {
                 Load_Options();
@@ -177,7 +179,7 @@ namespace Physsi___Comsci_Project
             // private Texture2D Start_Button; // texture for button that starts the simulation
             // private Dictionary<string, Texture2D> Items_Dict = new Dictionary<string, Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
 
-            Background = Content.Load<Texture2D>("RigidBody_Editor/Background");
+            Background = Content.Load<Texture2D>("RigidBody_Editor\\Background");
     }
 
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
@@ -206,10 +208,19 @@ namespace Physsi___Comsci_Project
 
         protected void Draw_Home_Screen_Sprite(GameTime gameTime)
         {
-            _spriteBatch.Draw(RigidAndSoft_Button, Rigid_Body_Pos, Color.White); // draw rigidbody sprite
-            _spriteBatch.Draw(RigidAndSoft_Button, Soft_Body_Pos, Color.White); // draw softbody sprite
-            _spriteBatch.Draw(Options_Button, Options_Button_Pos, Color.White); // draw options sprite
-            _spriteBatch.Draw(Quit_Button, Quit_Button_Pos, Color.White); // draw quit sprite
+            try {
+                _spriteBatch.Draw(RigidAndSoft_Button, Rigid_Body_Pos, Color.White); // draw rigidbody sprite
+                _spriteBatch.Draw(RigidAndSoft_Button, Soft_Body_Pos, Color.White); // draw softbody sprite
+                _spriteBatch.Draw(Options_Button, Options_Button_Pos, Color.White); // draw options sprite
+                _spriteBatch.Draw(Quit_Button, Quit_Button_Pos, Color.White); // draw quit sprite
+            } catch(ArgumentNullException ex) {
+                if (RigidAndSoft_Button == null)
+                {
+                    throw new Exception("RigidAndSoft_Button in Draw_Home_Screen_Sprite() is null", ex);
+                }
+            }
+
+            
         }
         protected void Draw_Home_Screen(GameTime gameTime)
 

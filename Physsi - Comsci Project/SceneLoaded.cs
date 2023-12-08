@@ -10,7 +10,7 @@ namespace Physsi___Comsci_Project
 
 
 
-        public static string scene_Loaded = "Home"; // currently loaded scene
+        public static string scene_Loaded = "HOME"; // currently loaded scene
 
        
 
@@ -33,13 +33,13 @@ namespace Physsi___Comsci_Project
         {
             if (scene_Loaded == null)
             {
-                System.Environment.Exit(1); // If 'scene_Loaded' variable is null, exit with code 1 (pointing to this error) 
+               throw new Exception("scene_Loaded is null"); // If 'scene_Loaded' variable is null, throw error
             }
 
 
             if (Array.IndexOf(scene_List,scene_Loaded) == -1) // the value of 'scene_Loaded' is not in the list (and so not an accepted scene)
             {
-                System.Environment.Exit(2); //  exits program and returns 
+                throw new Exception("scene_Loaded is not in scene_List"); //  throws error to show what is wrong 
             }
 
 
