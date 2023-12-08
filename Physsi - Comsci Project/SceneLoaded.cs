@@ -14,7 +14,7 @@ namespace Physsi___Comsci_Project
 
        
 
-        public void scene_list_load() // load scenes into the scene_List array
+        public void scene_load() // load scenes into the scene_List array
         {
             scene_List[0] = "HOME";
             scene_List[1] = "OPTIONS";

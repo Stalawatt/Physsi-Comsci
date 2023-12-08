@@ -21,69 +21,7 @@ namespace Physsi___Comsci_Project
 
         
 
-        // HOMESCREEN SPRITES LOADING TEXTURE2D AND OTHER VARIABLES
         
-
-        // --------------------------------------------------------------------------------------------------------------------------------------------------
-        private Texture2D RigidAndSoft_Button; // Sprite for Rigid/Soft -Body buttons
-        private Texture2D Options_Button; // Sprite for Options button
-        private Texture2D Quit_Button;    // Sprite for Quit Button
-
-        // SPRITEFONTS FOR TEXT - Fonts to use on different parts of text
-        private SpriteFont Logo_Font;
-        private SpriteFont Large_Button_Font; // for Rigid-Body and Soft-Body buttons
-        private SpriteFont Small_Button_Font; // For use on Options and Quit buttons
-
-        // TEXT 
-        public string Physsi_Logo_RawText = "Physsi"; // TITLE
-                                                      // Text for use on buttons (like labels)
-        private string Rigid_Button_RawText = "Rigid-Body";  // Rigid-Body text           
-        private string Options_Button_RawText = "Options";   // Options button text
-        private string Soft_Button_RawText = "Soft-Body";    // Soft-Body text
-        private string Quit_Button_RawText = "Quit";         // Quit text
-
-
-        // HOMESCREEN BUTTON POSITIONS
-        Vector2 Rigid_Body_Pos = new Vector2(460, 400); // From top left of screen
-        Vector2 Soft_Body_Pos = new Vector2(460, 600); // From top left of screen
-        Vector2 Options_Button_Pos = new Vector2(585, 800); // From top left of screen
-        Vector2 Quit_Button_Pos = new Vector2(1700, 850); // From top left of screen
-
-        //Vector2 position is from top left of screen (which is 0,0) to top left of TextBox
-        static class Physsi_Text_Attr
-        {
-            //public static float width;
-            //public static float height;
-            public static Vector2 Position = new Vector2(680, 50); // Centre in screen horizontally, but high on screen
-        }
-
-        static class Rigid_Button_Text_Attr
-        {
-            //public static float width;
-            //public static float height;
-            public static Vector2 Position = new Vector2(650, 400); // Center in the middle of the button
-        }
-
-        static class Soft_Button_Text_Attr
-        {
-            //public static float width;
-            //public static float height;
-            public static Vector2 Position = new Vector2(650, 600); // Center in the middle of the button
-        }
-
-        static class Options_Button_Text_Attr
-        {
-            //public static float width;
-            //public static float height;
-            public static Vector2 Position = new Vector2(775, 825); // Center in the middle of the button
-        }
-
-        static class Quit_Button_Text_Attr
-        {
-            //public static float width;
-            //public static float height;
-            public static Vector2 Position = new Vector2(1700, 875); // Center in the middle of the button
-        }
 
 
 
@@ -91,11 +29,11 @@ namespace Physsi___Comsci_Project
 
         // INITIALISE RIGIDBODY EDITOR VARIABLES
 
-        private Texture2D Background; // background for the scene editor area
-        private Texture2D Background_Selector; // background for the items selector
-        private Texture2D Option_Button; // texture for button that opens the options page
-        private Texture2D Start_Button; // texture for button that starts the simulation
-        private Dictionary<string,Texture2D> Items_Dict = new Dictionary<string,Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
+        private Texture2D Background_RB; // background for the scene editor area
+        private Texture2D Background_Selector_RB; // background for the items selector
+        private Texture2D Option_Button_RB; // texture for button that opens the options page
+        private Texture2D Start_Button_RB; // texture for button that starts the simulation
+        private Dictionary<string,Texture2D> Items_Dict_RB = new Dictionary<string,Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
         
 
 
@@ -110,7 +48,8 @@ namespace Physsi___Comsci_Project
 
         protected override void Initialize()
         {
-           
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             // CHANGE TO FULLSCREEN FOR ALL SCENES
 
             _graphics.ToggleFullScreen();// make so that it isnt a fullscreen window, but rather fullscreen
@@ -126,13 +65,13 @@ namespace Physsi___Comsci_Project
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            
 
             // use Content to load game content here
 
             if (SceneLoaded.scene_Loaded == "HOME")
             {
-                Load_Home(); // Loads the textures for the homescreen
+                HomeScreen.Load_Home(Content); // Loads the textures for the homescreen
                 
             } else if (SceneLoaded.scene_Loaded == "OPTIONS")
             {
@@ -145,21 +84,6 @@ namespace Physsi___Comsci_Project
 
         }
 
-        // Load content for the homepage
-
-        protected void Load_Home()
-        {
-            // INITIALISE TEXTURES FROM PASSED FILENAME (PNG IMAGES)
-            RigidAndSoft_Button = Content.Load<Texture2D>("Homescreen/1000x174 Rigidbody Button"); // Button sprite for the Large buttons (Rigid-Body and Soft-Body buttons)
-            Options_Button = Content.Load<Texture2D>("Homescreen/Options button"); // Button sprite for the Options button
-            Quit_Button = Content.Load<Texture2D>("Homescreen/Quit_Button"); // Button sprite for Quit button
-
-            // Initialise Fonts
-            Logo_Font = Content.Load<SpriteFont>("Homescreen/Physsi"); // Load font from Physsi.spritefont to use for the title
-            Large_Button_Font = Content.Load<SpriteFont>("Homescreen/Large_Button"); // Load font from Large_Button.spritefont to use for Rigid/Soft -Body buttons
-            Small_Button_Font = Content.Load<SpriteFont>("Homescreen/Small_Button"); // Load font from Small_Button.spritefont to use for Quit and Options buttons
-        }
-
         // Load content for the options page
 
         protected void Load_Options()
@@ -169,18 +93,26 @@ namespace Physsi___Comsci_Project
 
 
         }
-
+        // RIGIDBODY SCENE --------------------------------------------------------------------------------------------------
         protected void Load_RigidBody_Editor() 
         {
             // Load content for the rigidbody editor
-            
-            // private Texture2D Background_Selector; // background for the items selector
-            // private Texture2D Option_Button; // texture for button that opens the options page
-            // private Texture2D Start_Button; // texture for button that starts the simulation
-            // private Dictionary<string, Texture2D> Items_Dict = new Dictionary<string, Texture2D>(); // contains a dictionary for the name, and texture/sprite of each shape
 
-            Background = Content.Load<Texture2D>("RigidBody_Editor\\Background");
-    }
+            Background_RB = Content.Load<Texture2D>("RigidBody_Editor/Background");
+            Option_Button_RB = Content.Load<Texture2D>("RigidBody_Editor/Options_Button");
+            Start_Button_RB = Content.Load<Texture2D>("RigidBody_Editor/Start_Button");
+            Items_Dict_RB.Add("square",Content.Load<Texture2D>("RigidBody_Editor/Square_Item"));
+        }
+
+        protected void Draw_RigidBody()
+        {
+            Draw_RigidBody_Sprite();
+        }
+
+        protected void Draw_RigidBody_Sprite()
+        {
+            _spriteBatch.Draw(Background_RB, new Vector2(0,0), Color.White);
+        }
 
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
@@ -197,39 +129,8 @@ namespace Physsi___Comsci_Project
 
             base.Update(gameTime);
         }
-        protected void Draw_Home_Screen_Text(GameTime gameTime)
-        {
-            _spriteBatch.DrawString(Logo_Font, Physsi_Logo_RawText, Physsi_Text_Attr.Position, Color.White); // "Physsi" Logo
-            _spriteBatch.DrawString(Large_Button_Font, Rigid_Button_RawText, Rigid_Button_Text_Attr.Position, Color.White); // Rigid-Body button label
-            _spriteBatch.DrawString(Large_Button_Font, Soft_Button_RawText, Soft_Button_Text_Attr.Position, Color.White); // Soft-Body button label
-            _spriteBatch.DrawString(Small_Button_Font, Options_Button_RawText, Options_Button_Text_Attr.Position, Color.White); // Options button label
-            _spriteBatch.DrawString(Small_Button_Font, Quit_Button_RawText, Quit_Button_Text_Attr.Position, Color.White); // Quit button label
-        }
-
-        protected void Draw_Home_Screen_Sprite(GameTime gameTime)
-        {
-            try {
-                _spriteBatch.Draw(RigidAndSoft_Button, Rigid_Body_Pos, Color.White); // draw rigidbody sprite
-                _spriteBatch.Draw(RigidAndSoft_Button, Soft_Body_Pos, Color.White); // draw softbody sprite
-                _spriteBatch.Draw(Options_Button, Options_Button_Pos, Color.White); // draw options sprite
-                _spriteBatch.Draw(Quit_Button, Quit_Button_Pos, Color.White); // draw quit sprite
-            } catch(ArgumentNullException ex) {
-                if (RigidAndSoft_Button == null)
-                {
-                    throw new Exception("RigidAndSoft_Button in Draw_Home_Screen_Sprite() is null", ex);
-                }
-            }
-
-            
-        }
-        protected void Draw_Home_Screen(GameTime gameTime)
-
-        {
-            Draw_Home_Screen_Sprite(gameTime); // draw sprites FIRST so that text is on top
-            Draw_Home_Screen_Text(gameTime); // draw labels for buttons
-
-
-        }
+        
+       
 
         protected override void Draw(GameTime gameTime)
         {
@@ -238,8 +139,18 @@ namespace Physsi___Comsci_Project
 
 
             _spriteBatch.Begin();
+            if (SceneLoaded.scene_Loaded == "HOME")
+            {
+                HomeScreen.Draw_Home_Screen(gameTime,_spriteBatch); // draw the home screen
 
-            Draw_Home_Screen(gameTime); // draw the home screen
+            } else if (SceneLoaded.scene_Loaded == "OPTIONS")
+            {
+
+            } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
+            {
+                Draw_RigidBody();
+            }
+            
 
 
             _spriteBatch.End();
@@ -264,6 +175,9 @@ namespace Physsi___Comsci_Project
             if (clicked_code == 0)
             {
                 // send user to rigid-body editor scene
+                Load_RigidBody_Editor();
+                ChangeScene.changeTo("RIGIDBODY_EDITOR");
+
             } else if (clicked_code == 1)
             {
                 // send user to soft-body editor scene
