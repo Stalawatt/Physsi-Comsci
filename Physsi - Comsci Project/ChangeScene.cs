@@ -8,9 +8,11 @@ namespace Physsi___Comsci_Project
 {
     public class ChangeScene
     {
+        
         public static void changeTo(string scene)
         {
             SceneLoaded.scene_Loaded = scene;
+            
             return;
         }
     }

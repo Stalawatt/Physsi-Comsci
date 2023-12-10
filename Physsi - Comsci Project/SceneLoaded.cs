@@ -6,7 +6,7 @@ namespace Physsi___Comsci_Project
 {
     public class SceneLoaded 
     {
-        private string[] scene_List = new string[5]; // scenes possible to be loaded
+        private static string[] scene_List = new string[5]; // scenes possible to be loaded
 
 
 
@@ -22,12 +22,6 @@ namespace Physsi___Comsci_Project
             return;
         }
 
-        public void replace_loaded_scene(string scene) // change scene currently loaded
-        {
-            scene_Loaded = scene;
-            check_errors();
-            return;
-        }
 
         public void check_errors() // check for errors in loading
         {

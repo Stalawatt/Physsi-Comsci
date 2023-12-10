@@ -121,9 +121,9 @@ namespace Physsi___Comsci_Project
             }
             catch (ArgumentNullException ex)
             {
-                if (RigidAndSoft_Button == null)
+                if (RigidAndSoft_Button == null || Options_Button == null || Quit_Button == null)
                 {
-                    throw new Exception("RigidAndSoft_Button in Draw_Home_Screen_Sprite() is null", ex);
+                    throw new Exception("Something in Draw_Home_Screen_Sprite() is null", ex);
                 }
             }
 
@@ -139,6 +139,73 @@ namespace Physsi___Comsci_Project
 
         }
 
+
+
+
+        // HANDLE CLICKS
+
+
+
+        
+        public static void handle_button_click(ContentManager Content) // handles leftt clicks for the homescreen
+        {
+            
+            int clicked_code = Clicked_Code(MouseCoords()); // finds what button is clicked
+
+            if (clicked_code == 0)
+            {
+                // send user to rigid-body editor scene
+                RigidBody_Editor.Load_RigidBody_Editor(Content);
+                ChangeScene.changeTo("RIGIDBODY_EDITOR");
+                
+
+            }
+            else if (clicked_code == 1)
+            {
+                // send user to soft-body editor scene
+            }
+            else if (clicked_code == 2)
+            {
+                // send user to options scene
+                Options_Scene.Last_Scene.last_Scene = "HOME";
+                Options_Scene.Load_Options_Scene(Content);
+                ChangeScene.changeTo("OPTIONS");
+            }
+            else if (clicked_code == 3)
+            {
+                System.Environment.Exit(0); // exit button kills the process, and returns exit code '0' ( no problem )
+            }
+        }
+
+        private static int Clicked_Code(Vector2 mouseCoords) // determines which button was clicked
+        {
+
+
+            if (mouseCoords.X > 460 && mouseCoords.Y > 400 && mouseCoords.X < 1460 && mouseCoords.Y < 573)
+            {
+
+                return 0; // the code for the 'Rigid-body' button is 0.
+            }
+            else if (mouseCoords.X > 460 && mouseCoords.Y > 600 && mouseCoords.X < 1460 && mouseCoords.Y < 773)
+            {
+                return 1; // the code for the 'Soft-body' button is 1.
+            }
+            else if (mouseCoords.X > 585 && mouseCoords.Y > 800 && mouseCoords.X < 1335 && mouseCoords.Y < 975)
+            {
+                return 2; // the code for the 'Options' button is 2. 
+            }
+            else if (mouseCoords.X > 1700 && mouseCoords.Y > 850 && mouseCoords.X < 1900 && mouseCoords.Y < 1250)
+            {
+                return 3; // the code for 'Quit' button is 3
+            }
+            return -1;
+        }
+
+        private static Vector2 MouseCoords() // finds and returns the cursor position as a Vector2
+        {
+            MouseState mouseState = Mouse.GetState();
+            return new Vector2(mouseState.X, mouseState.Y);
+        }
 
     }
 }

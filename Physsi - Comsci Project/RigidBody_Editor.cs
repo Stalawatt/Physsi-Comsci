@@ -50,7 +50,7 @@ namespace Physsi___Comsci_Project
 
         // Initialise SpriteFonts
 
-        private static class ItemText
+        public static class ItemText
         {
             public static string Text = "Items";
             public static SpriteFont Font;
@@ -99,6 +99,22 @@ namespace Physsi___Comsci_Project
 
             _spriteBatch.DrawString(ItemText.Font,ItemText.Text, ItemText.positon,Color.Black); // Draw text saying 'Items' at the top of the selector bar
 
+        }
+
+        public static void handle_button_click_left(ContentManager Content)
+        {
+            Vector2 mousePos = MouseCoords();
+
+            if (mousePos.X >= Start_Button.Position.X && mousePos.X <= Start_Button.Position.X + 100)
+            {
+                
+            }
+        }
+
+        private static Vector2 MouseCoords() // finds and returns the cursor position as a Vector2
+        {
+            MouseState mouseState = Mouse.GetState();
+            return new Vector2(mouseState.X, mouseState.Y);
         }
 
     }
