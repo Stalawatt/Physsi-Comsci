@@ -64,7 +64,6 @@ namespace Physsi___Comsci_Project
 
         }
 
-        private int x = 10;
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
 
