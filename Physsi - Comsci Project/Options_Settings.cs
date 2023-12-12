@@ -21,6 +21,10 @@ namespace Physsi___Comsci_Project
             public static bool state = false; // on or off (starts on off)
         }
 
+        public static class Gravity
+        {
+            public static float Constant = 9.81f;
+        }
        
 
     }

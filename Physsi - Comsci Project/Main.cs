@@ -126,7 +126,7 @@ namespace Physsi___Comsci_Project
              
             if (SceneLoaded.scene_Loaded == "HOME")
             {
-                HomeScreen.handle_button_click(Content, MouseCoords()); // handles button clicks and what they should do, Clicked_Code() determines what button was clicked.
+                HomeScreen.handle_button_click(Content, MouseCoords()); // handles button clicks and what they should do
 
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
             {

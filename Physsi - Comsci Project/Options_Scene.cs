@@ -19,8 +19,9 @@ namespace Physsi___Comsci_Project
 
         // For options :
 
-        // Gravitational Constant     (integer)
+        // Gravitational Constant     (double)
         // Air Resistance             (boolean)
+
         private static Radial Radial_LEFT;
         private static Radial Radial_RIGHT;
 
@@ -108,8 +109,8 @@ namespace Physsi___Comsci_Project
             Radial_RIGHT.Sprite = Content.Load<Texture2D>("Options_Scene/Radial_ON"); // load into a variable the ON sprite for radial
             Radial_LEFT.Sprite = Content.Load<Texture2D>("Options_Scene/Radial_OFF"); // load into a variable the OFF sprite for radial
 
-            Radial_LEFT.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2) - 30, 230);
-            Radial_RIGHT.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2) + 170, 230);
+            Radial_LEFT.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2) - 30, 230); // position in the middle of the option background
+            Radial_RIGHT.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2) + 170, 230); // position 200px to the right of the other radial
             
             
             if (Options_Settings.AirResistance.state == false)

@@ -44,8 +44,13 @@ namespace Physsi___Comsci_Project
         private static class Square_Item
         {
             public static Texture2D Sprite; // square item for the selector bar
-            public static Vector2 Position = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 281 + (281 - 150) / 2
-            , 150); // position selector version of the square item;
+            public static Vector2 Position = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - 281 + (281 - 150) / 2, 150); // position selector version of the square item;
+        }
+
+        private static class Top_Border
+        {
+            public static Texture2D Sprite;
+            public static Vector2 Position = new Vector2(0,0);
         }
 
         // Initialise SpriteFonts
@@ -71,6 +76,7 @@ namespace Physsi___Comsci_Project
             Option_Button.Sprite = Content.Load<Texture2D>("RigidBody_Editor/Options_Button");
             Start_Button.Sprite = Content.Load<Texture2D>("RigidBody_Editor/Start_Button");
             Square_Item.Sprite = Content.Load<Texture2D>("RigidBody_Editor/Square_Item");
+            Top_Border.Sprite = Content.Load<Texture2D>("RigidBody_Editor/Top_Border");
 
             // Load the fonts for the rigidbody editor 
             ItemText.Font = Content.Load<SpriteFont>("RigidBody_Editor/Item");
@@ -91,6 +97,7 @@ namespace Physsi___Comsci_Project
 
             _spriteBatch.Draw(Background.Sprite, Background.Position, Color.White); // Draw the background to the screen
             _spriteBatch.Draw(Selector_Background.Sprite, Selector_Background.Position, Color.White); // draw the background for the right side of screem (item selector)
+            _spriteBatch.Draw(Top_Border.Sprite, Top_Border.Position, Color.White);
             _spriteBatch.Draw(Start_Button.Sprite, Start_Button.Position, Color.White); // Draw the start button in the bottom right of the scene area (but not over the selector bar)
             _spriteBatch.Draw(Option_Button.Sprite, Option_Button.Position, Color.White); // Draw the options button in the bottom right of scene area ( above start button) 
             _spriteBatch.Draw(Square_Item.Sprite, Square_Item.Position, Color.White); // Draw the selector square item 
@@ -104,12 +111,13 @@ namespace Physsi___Comsci_Project
         public static void handle_button_click_left(ContentManager Content,Vector2 mouse_Coords)
         {
             
-
+            
             if (mouse_Coords.X >= Start_Button.Position.X && mouse_Coords.X <= Start_Button.Position.X + 100 && mouse_Coords.Y >= Start_Button.Position.Y && mouse_Coords.Y <= Start_Button.Position.Y + 100)
             {
-                
-            } else if (mouse_Coords.X >= Option_Button.Position.X && mouse_Coords.X <= Option_Button.Position.X + 100 && mouse_Coords.Y >= Option_Button.Position.Y && mouse_Coords.Y <= Option_Button.Position.Y + 100) // If options button is clicked
+                // start button was clicked    
+            } else if (mouse_Coords.X >= Option_Button.Position.X && mouse_Coords.X <= Option_Button.Position.X + 100 && mouse_Coords.Y >= Option_Button.Position.Y && mouse_Coords.Y <= Option_Button.Position.Y + 100) 
             {
+                // options button was clicked -> send user to options scene
                 Options_Scene.Last_Scene.last_Scene = "RIGIDBODY_EDITOR";
                 Options_Scene.Load_Options_Scene(Content);
                 ChangeScene.changeTo("OPTIONS");
