@@ -101,21 +101,23 @@ namespace Physsi___Comsci_Project
 
         }
 
-        public static void handle_button_click_left(ContentManager Content)
+        public static void handle_button_click_left(ContentManager Content,Vector2 mouse_Coords)
         {
-            Vector2 mousePos = MouseCoords();
+            
 
-            if (mousePos.X >= Start_Button.Position.X && mousePos.X <= Start_Button.Position.X + 100)
+            if (mouse_Coords.X >= Start_Button.Position.X && mouse_Coords.X <= Start_Button.Position.X + 100 && mouse_Coords.Y >= Start_Button.Position.Y && mouse_Coords.Y <= Start_Button.Position.Y + 100)
             {
                 
+            } else if (mouse_Coords.X >= Option_Button.Position.X && mouse_Coords.X <= Option_Button.Position.X + 100 && mouse_Coords.Y >= Option_Button.Position.Y && mouse_Coords.Y <= Option_Button.Position.Y + 100) // If options button is clicked
+            {
+                Options_Scene.Last_Scene.last_Scene = "RIGIDBODY_EDITOR";
+                Options_Scene.Load_Options_Scene(Content);
+                ChangeScene.changeTo("OPTIONS");
+
             }
         }
 
-        private static Vector2 MouseCoords() // finds and returns the cursor position as a Vector2
-        {
-            MouseState mouseState = Mouse.GetState();
-            return new Vector2(mouseState.X, mouseState.Y);
-        }
+        
 
     }
 }

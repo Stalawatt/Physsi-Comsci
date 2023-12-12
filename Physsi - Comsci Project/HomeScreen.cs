@@ -147,12 +147,15 @@ namespace Physsi___Comsci_Project
 
 
         
-        public static void handle_button_click(ContentManager Content) // handles leftt clicks for the homescreen
+        public static void handle_button_click(ContentManager Content, Vector2 mouse_Coords) // handles leftt clicks for the homescreen
         {
             
-            int clicked_code = Clicked_Code(MouseCoords()); // finds what button is clicked
+            int clicked_code = Clicked_Code(mouse_Coords); // finds what button is clicked
 
-            if (clicked_code == 0)
+            if (clicked_code == -1) 
+            {
+                // no button was clicked
+            }else if (clicked_code == 0)
             {
                 // send user to rigid-body editor scene
                 RigidBody_Editor.Load_RigidBody_Editor(Content);
@@ -201,11 +204,7 @@ namespace Physsi___Comsci_Project
             return -1;
         }
 
-        private static Vector2 MouseCoords() // finds and returns the cursor position as a Vector2
-        {
-            MouseState mouseState = Mouse.GetState();
-            return new Vector2(mouseState.X, mouseState.Y);
-        }
+        
 
     }
 }

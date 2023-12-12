@@ -17,6 +17,8 @@ namespace Physsi___Comsci_Project
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private ButtonState prevState;
+
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -64,20 +66,20 @@ namespace Physsi___Comsci_Project
 
         }
 
-        private int x = 10;
+       
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
 
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && prevState == ButtonState.Released)
             {
 
                 LeftClick();
 
             }
-            
 
 
 
+            prevState = Mouse.GetState().LeftButton;
             
 
             base.Update(gameTime);
@@ -124,23 +126,27 @@ namespace Physsi___Comsci_Project
              
             if (SceneLoaded.scene_Loaded == "HOME")
             {
-                HomeScreen.handle_button_click(Content); // handles button clicks and what they should do, Clicked_Code() determines what button was clicked.
+                HomeScreen.handle_button_click(Content, MouseCoords()); // handles button clicks and what they should do, Clicked_Code() determines what button was clicked.
 
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
             {
-                RigidBody_Editor.handle_button_click_left(Content);
+                RigidBody_Editor.handle_button_click_left(Content, MouseCoords());
 
             } else if (SceneLoaded.scene_Loaded == "OPTIONS")
             {
-                
+                Options_Scene.Handle_button_click(Content,MouseCoords());
             }
             
         }
 
-        
-       
 
-        
+
+
+        public static Vector2 MouseCoords() // finds and returns the cursor position as a Vector2
+        {
+            MouseState mouseState = Mouse.GetState();
+            return new Vector2(mouseState.X, mouseState.Y);
+        }
 
 
 
