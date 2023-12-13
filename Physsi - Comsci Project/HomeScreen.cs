@@ -99,7 +99,7 @@ namespace Physsi___Comsci_Project
         }
 
         // Draw text onto homescreen scene
-        public static void Draw_Home_Screen_Text(GameTime gameTime, SpriteBatch _spriteBatch)
+        public static void Draw_Home_Screen_Text(SpriteBatch _spriteBatch)
         {
             _spriteBatch.DrawString(Logo_Font, Physsi_Logo_RawText, Physsi_Text_Attr.Position, Color.White); // "Physsi" Logo
             _spriteBatch.DrawString(Large_Button_Font, Rigid_Button_RawText, Rigid_Button_Text_Attr.Position, Color.White); // Rigid-Body button label
@@ -110,7 +110,7 @@ namespace Physsi___Comsci_Project
 
         // draw sprites for homescreen scene
 
-        public static void Draw_Home_Screen_Sprite(GameTime gameTime, SpriteBatch _spriteBatch)
+        public static void Draw_Home_Screen_Sprite( SpriteBatch _spriteBatch)
         {
             try
             {
@@ -130,11 +130,11 @@ namespace Physsi___Comsci_Project
 
         }
 
-        public static void Draw_Home_Screen(GameTime gameTime, SpriteBatch spriteBatch)
+        public static void Draw_Home_Screen(SpriteBatch spriteBatch)
 
         {
-            Draw_Home_Screen_Sprite(gameTime, spriteBatch); // draw sprites FIRST so that text is on top
-            Draw_Home_Screen_Text(gameTime, spriteBatch); // draw labels for buttons
+            Draw_Home_Screen_Sprite(spriteBatch); // draw sprites FIRST so that text is on top
+            Draw_Home_Screen_Text(spriteBatch); // draw labels for buttons
 
 
         }
@@ -147,7 +147,7 @@ namespace Physsi___Comsci_Project
 
 
         
-        public static void handle_button_click(ContentManager Content, Vector2 mouse_Coords) // handles leftt clicks for the homescreen
+        public static void handle_button_click(ContentManager Content, Vector2 mouse_Coords) // handles left clicks for the homescreen
         {
             
             int clicked_code = Clicked_Code(mouse_Coords); // finds what button is clicked
@@ -201,7 +201,7 @@ namespace Physsi___Comsci_Project
             {
                 return 3; // the code for 'Quit' button is 3
             }
-            return -1;
+            return -1; // no button was clicked
         }
 
         

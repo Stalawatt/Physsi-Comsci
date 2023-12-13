@@ -23,7 +23,7 @@ namespace Physsi___Comsci_Project
         // the data that will eventually be exported into a file
 
 
-        private float screen_ratio_constant = 0.8536f;
+        private static float screen_ratio_constant = 0.8536f;
        
 
         private static int min_Y = 160; // the positions of the smaller screen on the rigidbody editor's sides as X and Y lines
@@ -33,11 +33,11 @@ namespace Physsi___Comsci_Project
 
         private static Vector2 TopLeft_RB_Preview = new Vector2(min_Y, min_X);
 
-        private double deltaTime; // however much time has passed since last frame, this will solve issues with square moving at different rate with different framerate
+        private static double deltaTime; // however much time has passed since last frame, this will solve issues with square moving at different rate with different framerate
     
-        private static class Items
+        private class Items
         {
-            public static List<Square_Item> Square_Items;
+            public List<Square_Item> Square_Items = new List<Square_Item>();
 
         }
         private class Square_Item
@@ -71,7 +71,9 @@ namespace Physsi___Comsci_Project
 
         }
 
-        private Square_Item GenerateDefaultSquare(ContentManager Content) // creates a default square item
+        private static Items itemList = new Items();
+
+        private static Square_Item GenerateDefaultSquare(ContentManager Content) // creates a default square item
         {
             Square_Item Square = new Square_Item(); // instantiates a new object
 
@@ -90,18 +92,22 @@ namespace Physsi___Comsci_Project
 
             return Square;
         }
-        public void Add_Square_Item(ContentManager Content) 
+        public static void Add_Square_Item(ContentManager Content) 
         {
             Square_Item Default = GenerateDefaultSquare(Content);
-            Items.Square_Items.Add(Default);
+            itemList.Square_Items.Add(Default);
         }
 
-        public void Draw_RB_PREVIEW()
+        public static void Draw_RB_PREVIEW(SpriteBatch _spriteBatch)
         {
-            foreach (Square_Item Square in Items.Square_Items)
-            {
-                
+            
+            
+            foreach (Square_Item Square in itemList.Square_Items)
+            { 
+                _spriteBatch.Draw(Square.Sprite, Square.Position_Scaled, Color.White);
             }
+            
+            
         }
 
 

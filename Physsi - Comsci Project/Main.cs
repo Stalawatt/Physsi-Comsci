@@ -96,7 +96,7 @@ namespace Physsi___Comsci_Project
             _spriteBatch.Begin();
             if (SceneLoaded.scene_Loaded == "HOME")
             {
-                HomeScreen.Draw_Home_Screen(gameTime,_spriteBatch); // draw the home screen
+                HomeScreen.Draw_Home_Screen(_spriteBatch); // draw the home screen
 
             } else if (SceneLoaded.scene_Loaded == "OPTIONS")
             {

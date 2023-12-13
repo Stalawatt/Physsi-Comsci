@@ -106,6 +106,10 @@ namespace Physsi___Comsci_Project
 
             _spriteBatch.DrawString(ItemText.Font,ItemText.Text, ItemText.positon,Color.Black); // Draw text saying 'Items' at the top of the selector bar
 
+            // draw the items in the preview
+
+            RB_LOGIC.Draw_RB_PREVIEW(_spriteBatch);
+
         }
 
         public static void handle_button_click_left(ContentManager Content,Vector2 mouse_Coords)
@@ -122,6 +126,10 @@ namespace Physsi___Comsci_Project
                 Options_Scene.Load_Options_Scene(Content);
                 ChangeScene.changeTo("OPTIONS");
 
+            } else if (mouse_Coords.X >= Square_Item.Position.X && mouse_Coords.X <= Square_Item.Position.X + 150 && mouse_Coords.Y >= Square_Item.Position.Y && mouse_Coords.Y <= Square_Item.Position.Y + 150)
+            {
+                // if the square item in the item selector bar is clicked
+                RB_LOGIC.Add_Square_Item(Content);
             }
         }
 
