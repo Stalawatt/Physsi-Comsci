@@ -23,6 +23,10 @@ namespace Physsi___Comsci_Project
         // the data that will eventually be exported into a file
 
 
+
+        
+        private static double previousTime = 0;
+
         private static float screen_ratio_constant = 0.8536f;
        
 
@@ -33,15 +37,19 @@ namespace Physsi___Comsci_Project
 
         private static Vector2 TopLeft_RB_Preview = new Vector2(min_Y, min_X);
 
-        private static double deltaTime; // however much time has passed since last frame, this will solve issues with square moving at different rate with different framerate
+       
     
         private class Items
         {
             public List<Square_Item> Square_Items = new List<Square_Item>();
 
         }
+
+        
+
         private class Square_Item
         {
+            
             // storing information about the object
             public Vector2 Position; 
             public Texture2D Sprite;
@@ -55,19 +63,36 @@ namespace Physsi___Comsci_Project
 
             public Vector2 Find_Center(Vector2 position) //  finds the center of the square 
             {
-                Vector2 to_center = new Vector2(this.Sprite.Width/2,this.Sprite.Height/2);
+                Vector2 to_center = new Vector2(Sprite.Width/2,Sprite.Height/2);
                 return Vector2.Add(position,to_center);
             }
 
-            public float Find_Acceleration_Y()
-            {
-                return 0f;
-            }
 
-            public void Update()
+            public void Update() // update attributes for the object
             {
+
+                Update_Velocity();
+                Update_Position();
                 
             }
+            
+            private void Update_Velocity() // V = u + a * t
+            { // Determines velocity for next frame
+                
+                Vector2 deltaVelocity = new Vector2(Acceleration.X * deltaTime.GetDeltaTime(), Acceleration.Y * deltaTime.GetDeltaTime());
+                Velocity = Vector2.Add(Velocity, deltaVelocity);
+                
+                
+            }
+
+            private void Update_Position() // updates the position by S_nextFrame = S_currentFrame + V * t
+            { // determines position for next frame
+
+                Vector2 deltaPosition = new Vector2(Velocity.X * deltaTime.GetDeltaTime(), Velocity.Y * deltaTime.GetDeltaTime());
+                Position = Vector2.Add(Position, deltaPosition);
+                Position_Scaled = Vector2.Multiply(Position, screen_ratio_constant);
+            }
+            
 
         }
 
@@ -89,24 +114,27 @@ namespace Physsi___Comsci_Project
             Square.Acceleration = new Vector2(0, Options_Settings.Gravity.Constant); // sets default acceleration to be X:0, Y:Gravitational Constant stored in Options_Settings
 
             Square.Center = Square.Find_Center(Square.Position); // finds the center of the square
-
+            
             return Square;
         }
-        public static void Add_Square_Item(ContentManager Content) 
+        public static void Add_Square_Item(ContentManager Content) // adds a new instance of the Square_Item object to the list in Items class
         {
             Square_Item Default = GenerateDefaultSquare(Content);
             itemList.Square_Items.Add(Default);
         }
-
-        public static void Draw_RB_PREVIEW(SpriteBatch _spriteBatch)
+        
+        public static void Draw_RB_PREVIEW(SpriteBatch _spriteBatch) // draws the squares to the preview in the rigidbody editor
         {
-            
+            deltaTime.Start();
             
             foreach (Square_Item Square in itemList.Square_Items)
             { 
                 _spriteBatch.Draw(Square.Sprite, Square.Position_Scaled, Color.White);
+                Square.Update();
+                
             }
-            
+
+            deltaTime.End();
             
         }
 

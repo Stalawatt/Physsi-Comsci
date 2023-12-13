@@ -24,12 +24,15 @@ namespace Physsi___Comsci_Project
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true; // make mouse visible while in the program
-
+            this.IsFixedTimeStep = true;
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1d/60d); // limit framerate to 60fps
         }
 
         protected override void Initialize()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            
 
             // CHANGE TO FULLSCREEN FOR ALL SCENES
 
@@ -66,6 +69,7 @@ namespace Physsi___Comsci_Project
 
         }
 
+        
         
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
@@ -126,7 +130,7 @@ namespace Physsi___Comsci_Project
              
             if (SceneLoaded.scene_Loaded == "HOME")
             {
-                HomeScreen.handle_button_click(Content, MouseCoords()); // handles button clicks and what they should do
+                HomeScreen.handle_button_click(Content, MouseCoords());       // handles button clicks and what they should do
 
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
             {
@@ -140,15 +144,13 @@ namespace Physsi___Comsci_Project
         }
 
 
-
-
         public static Vector2 MouseCoords() // finds and returns the cursor position as a Vector2
         {
             MouseState mouseState = Mouse.GetState();
             return new Vector2(mouseState.X, mouseState.Y);
         }
 
-
+        
 
     }
 
