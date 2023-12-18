@@ -119,6 +119,9 @@ namespace Physsi___Comsci_Project
             if (mouse_Coords.X >= Start_Button.Position.X && mouse_Coords.X <= Start_Button.Position.X + 100 && mouse_Coords.Y >= Start_Button.Position.Y && mouse_Coords.Y <= Start_Button.Position.Y + 100)
             {
                 // start button was clicked    
+                ScenePlayer.load_Scene(Content);
+                ChangeScene.changeTo("SCENEPLAYER");
+
             } else if (mouse_Coords.X >= Option_Button.Position.X && mouse_Coords.X <= Option_Button.Position.X + 100 && mouse_Coords.Y >= Option_Button.Position.Y && mouse_Coords.Y <= Option_Button.Position.Y + 100) 
             {
                 // options button was clicked -> send user to options scene

@@ -23,7 +23,7 @@ namespace Physsi___Comsci_Project
 
         public static float GetDeltaTime() // returns the time between Start() and End() calls
         {
-            return (float)((time2.Ticks - time1.Ticks) / 10000000f);
+            return (float)((time1.Ticks - time2.Ticks) / 1000000000000000000f);
         }
 
     }

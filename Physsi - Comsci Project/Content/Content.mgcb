@@ -204,30 +204,6 @@
 /processorParam:TextureFormat=Color
 /build:RigidBody_Editor/Background_Selector.png
 
-#begin RigidBody_Editor/Background_Selector.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:RigidBody_Editor/Background_Selector.png
-
-#begin RigidBody_Editor/Background.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:RigidBody_Editor/Background.png
-
 #begin RigidBody_Editor/Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -246,25 +222,6 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:RigidBody_Editor/Item.spritefont
-
-#begin RigidBody_Editor/Item.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:RigidBody_Editor/Item.spritefont
-
-#begin RigidBody_Editor/Options_Button.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:RigidBody_Editor/Options_Button.png
 
 #begin RigidBody_Editor/Options_Button.png
 /importer:TextureImporter
@@ -289,30 +246,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:RigidBody_Editor/Square_Item.png
-
-#begin RigidBody_Editor/Square_Item.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:RigidBody_Editor/Square_Item.png
-
-#begin RigidBody_Editor/Start_Button.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:RigidBody_Editor/Start_Button.png
 
 #begin RigidBody_Editor/Start_Button.png
 /importer:TextureImporter
@@ -337,4 +270,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:RigidBody_Editor/Top_Border.png
+
+#begin ScenePlayer/End_Button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ScenePlayer/End_Button.png
 

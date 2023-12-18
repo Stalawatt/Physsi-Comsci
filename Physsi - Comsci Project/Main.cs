@@ -63,7 +63,10 @@ namespace Physsi___Comsci_Project
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR") 
             {
                 RigidBody_Editor.Load_RigidBody_Editor(Content);
-            } 
+            } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER")
+            {
+                ScenePlayer.load_Scene(Content);
+            }
             
 
 
@@ -110,7 +113,9 @@ namespace Physsi___Comsci_Project
             {
                 RigidBody_Editor.Draw_RigidBody(_spriteBatch);
 
-
+            } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER")
+            {
+                ScenePlayer.draw_scene(_spriteBatch);
             }
 
 
@@ -139,6 +144,9 @@ namespace Physsi___Comsci_Project
             } else if (SceneLoaded.scene_Loaded == "OPTIONS")
             {
                 Options_Scene.Handle_button_click(Content,MouseCoords());
+            } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER")
+            {
+                ScenePlayer.handle_Click(Content, MouseCoords());
             }
             
         }

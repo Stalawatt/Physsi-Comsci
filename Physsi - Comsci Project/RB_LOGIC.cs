@@ -58,6 +58,7 @@ namespace Physsi___Comsci_Project
 
             public Vector2 Velocity; // stores the component velocities for horizontal and vertical
             public Vector2 Acceleration; // stores component acceleration for horizontal and vertical
+            public float mass = 1f;
 
             public Vector2 Center;
 
@@ -71,7 +72,7 @@ namespace Physsi___Comsci_Project
             public void Update() // update attributes for the object
             {
 
-                Update_Velocity();
+                
                 Update_Position();
                 
             }
@@ -89,8 +90,17 @@ namespace Physsi___Comsci_Project
             { // determines position for next frame
 
                 Vector2 deltaPosition = new Vector2(Velocity.X * deltaTime.GetDeltaTime(), Velocity.Y * deltaTime.GetDeltaTime());
-                Position = Vector2.Add(Position, deltaPosition);
-                Position_Scaled = Vector2.Multiply(Position, screen_ratio_constant);
+                if (Vector2.Add(Position, deltaPosition).Y > 1090)
+                {
+                    Position.Y = 1090;
+                } else
+                {
+                    Position = Vector2.Add(Position, deltaPosition);
+                    Position_Scaled = Vector2.Multiply(Position, screen_ratio_constant);
+                    Update_Velocity();
+                }
+
+                
             }
             
 
@@ -130,7 +140,16 @@ namespace Physsi___Comsci_Project
             foreach (Square_Item Square in itemList.Square_Items)
             { 
                 _spriteBatch.Draw(Square.Sprite, Square.Position_Scaled, Color.White);
-                Square.Update();
+
+                if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
+                {
+                 // dont update
+                 
+                } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER") // only update the squares if it is in the scene player
+                {
+                    Square.Update();
+                }
+                
                 
             }
 
