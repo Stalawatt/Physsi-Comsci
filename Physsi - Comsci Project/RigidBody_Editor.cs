@@ -96,10 +96,9 @@ namespace Physsi___Comsci_Project
             // Draw sprites and objects
 
             _spriteBatch.Draw(Background.Sprite, Background.Position, Color.White); // Draw the background to the screen
-            _spriteBatch.Draw(Selector_Background.Sprite, Selector_Background.Position, Color.White); // draw the background for the right side of screem (item selector)
-            _spriteBatch.Draw(Top_Border.Sprite, Top_Border.Position, Color.White);
-            _spriteBatch.Draw(Start_Button.Sprite, Start_Button.Position, Color.White); // Draw the start button in the bottom right of the scene area (but not over the selector bar)
-            _spriteBatch.Draw(Option_Button.Sprite, Option_Button.Position, Color.White); // Draw the options button in the bottom right of scene area ( above start button) 
+            _spriteBatch.Draw(Selector_Background.Sprite, Selector_Background.Position, Color.White); // Draw the background for the right side of screem (item selector)
+            _spriteBatch.Draw(Top_Border.Sprite, Top_Border.Position, Color.White); // Draw the top border in the top right
+
             _spriteBatch.Draw(Square_Item.Sprite, Square_Item.Position, Color.White); // Draw the selector square item 
 
             // Draw text
@@ -110,6 +109,10 @@ namespace Physsi___Comsci_Project
 
             RB_LOGIC.Draw_RB_PREVIEW(_spriteBatch);
 
+            // draw the items first so that can still see the buttons if the buttons and items overlap
+
+            _spriteBatch.Draw(Start_Button.Sprite, Start_Button.Position, Color.White); // Draw the start button in the bottom right of the scene area (but not over the selector bar)
+            _spriteBatch.Draw(Option_Button.Sprite, Option_Button.Position, Color.White); // Draw the options button in the bottom right of scene area ( above start button) 
         }
 
         public static void handle_button_click_left(ContentManager Content,Vector2 mouse_Coords)

@@ -39,6 +39,7 @@ namespace Physsi___Comsci_Project
         {
             _spriteBatch.Draw(Background.Sprite, Background.Position, Color.White);
             _spriteBatch.Draw(EndButton.Sprite, EndButton.Position, Color.White);
+            draw_items(_spriteBatch);
         }
 
         public static void handle_Click(ContentManager Content, Vector2 mouseCoords)
@@ -46,8 +47,17 @@ namespace Physsi___Comsci_Project
             if (mouseCoords.X >= EndButton.Position.X && mouseCoords.X <= EndButton.Position.X + 100 && mouseCoords.Y >= EndButton.Position.Y && mouseCoords.Y <= EndButton.Position.Y + 100)
             {
                 // if end button was clicked
-                
+                // send user to rigid-body editor scene
+                // load scene not needed as is already loaded
+                RB_LOGIC.Reset_Squares();
+                ChangeScene.changeTo("RIGIDBODY_EDITOR");
+
             }
+        }
+
+        public static void draw_items(SpriteBatch _spriteBatch)
+        {
+            RB_LOGIC.Draw_RB(_spriteBatch);
         }
     }
 }

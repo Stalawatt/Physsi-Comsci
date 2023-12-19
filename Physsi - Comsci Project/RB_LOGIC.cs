@@ -45,7 +45,10 @@ namespace Physsi___Comsci_Project
 
         }
 
-        
+        public static class Click
+        {
+            public static MouseState LastClick;
+        }
 
         private class Square_Item
         {
@@ -54,14 +57,17 @@ namespace Physsi___Comsci_Project
             public Vector2 Position; 
             public Texture2D Sprite;
 
+
+            public Vector2 Start_Position;
             public Vector2 Position_Scaled; // position inside of the smaller screen for the RB editor
 
             public Vector2 Velocity; // stores the component velocities for horizontal and vertical
             public Vector2 Acceleration; // stores component acceleration for horizontal and vertical
-            public float mass = 1f;
+            public float Mass = 1f; // all start with a mass of 1 (kg)
 
             public Vector2 Center;
 
+            
             public Vector2 Find_Center(Vector2 position) //  finds the center of the square 
             {
                 Vector2 to_center = new Vector2(Sprite.Width/2,Sprite.Height/2);
@@ -82,21 +88,19 @@ namespace Physsi___Comsci_Project
                 
                 Vector2 deltaVelocity = new Vector2(Acceleration.X * deltaTime.GetDeltaTime(), Acceleration.Y * deltaTime.GetDeltaTime());
                 Velocity = Vector2.Add(Velocity, deltaVelocity);
-                
-                
+
             }
 
             private void Update_Position() // updates the position by S_nextFrame = S_currentFrame + V * t
             { // determines position for next frame
 
                 Vector2 deltaPosition = new Vector2(Velocity.X * deltaTime.GetDeltaTime(), Velocity.Y * deltaTime.GetDeltaTime());
-                if (Vector2.Add(Position, deltaPosition).Y > 1090)
+                if (Vector2.Add(Position, deltaPosition).Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150)
                 {
-                    Position.Y = 1090;
+                    Position.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height-150;
                 } else
                 {
                     Position = Vector2.Add(Position, deltaPosition);
-                    Position_Scaled = Vector2.Multiply(Position, screen_ratio_constant);
                     Update_Velocity();
                 }
 
@@ -116,6 +120,8 @@ namespace Physsi___Comsci_Project
 
             Square.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - Square.Sprite.Width)/2,
                 (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Square.Sprite.Height)/2); // Centers the sprite in the middle of the screen
+            Square.Start_Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - Square.Sprite.Width) / 2,
+                (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Square.Sprite.Height) / 2); // saves where it starts
 
             Square.Position_Scaled = Vector2.Add(Vector2.Multiply(Square.Position, screen_ratio_constant), TopLeft_RB_Preview); // scales the position for the RB preview scene
 
@@ -135,31 +141,65 @@ namespace Physsi___Comsci_Project
         
         public static void Draw_RB_PREVIEW(SpriteBatch _spriteBatch) // draws the squares to the preview in the rigidbody editor
         {
-            deltaTime.Start();
+           
             
             foreach (Square_Item Square in itemList.Square_Items)
             { 
                 _spriteBatch.Draw(Square.Sprite, Square.Position_Scaled, Color.White);
 
-                if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
-                {
-                 // dont update
-                 
-                } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER") // only update the squares if it is in the scene player
-                {
-                    Square.Update();
-                }
-                
-                
             }
 
-            deltaTime.End();
             
         }
 
+        public static void Draw_RB(SpriteBatch _spriteBatch)
+        {
+            deltaTime.Start();
+            foreach(Square_Item Square in itemList.Square_Items)
+            {
+                _spriteBatch.Draw(Square.Sprite, Square.Position, Color.White);
+                Square.Update();
+            }
+            deltaTime.End();
+        }
 
+        public static void Reset_Squares()
+        {
+            foreach (Square_Item Square in itemList.Square_Items)
+            {
 
+                Square.Position = Square.Start_Position;
+                Square.Velocity = new Vector2(0,0); // set velocity to 0
+                
+            }
+        }
 
+        public static void DragCLick(MouseState prevState) // drags the square items around the RB_EDITOR
+        {
+            
+            MouseState currentState = Mouse.GetState();
 
+            int deltaX = currentState.X - prevState.X;
+            int deltaY = currentState.Y - prevState.Y;
+
+            Vector2 deltaPos = new Vector2(deltaX, deltaY);
+
+            foreach (Square_Item Square in itemList.Square_Items)
+            {
+                if (Click.LastClick.X >= Square.Position.X && Click.LastClick.X <= Square.Position.X + 150 && Click.LastClick.Y >= Square.Position.Y && Click.LastClick.Y <= Square.Position.Y + 150)
+                {
+                    Square.Position = Vector2.Add(Square.Position,deltaPos);
+                    Square.Position_Scaled = Square.Position;
+                    Square.Start_Position= Square.Position;
+                }
+            }                                                                                
+
+        }
+
+        public static void ResetScene()
+        {
+            itemList.Square_Items.Clear();
+        }
+                                                                                                              
     }
 }

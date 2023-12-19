@@ -176,6 +176,10 @@ namespace Physsi___Comsci_Project
             else if (mouse_Coords.X >= Menu_Button.Position.X && mouse_Coords.X <= Menu_Button.Position.X + 800 && mouse_Coords.Y >= Menu_Button.Position.Y && mouse_Coords.Y <= Menu_Button.Position.Y + 120) // if the menu button is clicked
             {
                 // change scene to homescreen
+                if (Last_Scene.last_Scene == "RIGIDBODY_EDITOR")
+                {
+                    RB_LOGIC.ResetScene();
+                }
                 HomeScreen.Load_Home(Content);
                 ChangeScene.changeTo("HOME");
             }

@@ -17,7 +17,7 @@ namespace Physsi___Comsci_Project
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private ButtonState prevState;
+        private MouseState prevState;
 
         public Main()
         {
@@ -26,6 +26,7 @@ namespace Physsi___Comsci_Project
             IsMouseVisible = true; // make mouse visible while in the program
             this.IsFixedTimeStep = true;
             this.TargetElapsedTime = TimeSpan.FromSeconds(1d/60d); // limit framerate to 60fps
+
         }
 
         protected override void Initialize()
@@ -77,16 +78,23 @@ namespace Physsi___Comsci_Project
         protected override void Update(GameTime gameTime) // Controls (Runs every frame)
         {
 
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed && prevState == ButtonState.Released)
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed && prevState.LeftButton == ButtonState.Released)
             {
-
+                // single click
                 LeftClick();
 
+            } else if (Mouse.GetState().LeftButton == ButtonState.Pressed && prevState.LeftButton == ButtonState.Pressed)
+            {
+                // drag click
+                if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
+                {
+                    RB_LOGIC.DragCLick(prevState);
+                }
             }
 
 
 
-            prevState = Mouse.GetState().LeftButton;
+            prevState = Mouse.GetState();
             
 
             base.Update(gameTime);
@@ -111,6 +119,7 @@ namespace Physsi___Comsci_Project
 
             } else if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
             {
+                RB_LOGIC.Click.LastClick = Mouse.GetState();
                 RigidBody_Editor.Draw_RigidBody(_spriteBatch);
 
             } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER")
