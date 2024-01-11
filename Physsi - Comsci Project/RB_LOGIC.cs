@@ -39,7 +39,7 @@ namespace Physsi___Comsci_Project
 
        
     
-        private class Items
+        public class Items
         {
             public List<Square_Item> Square_Items = new List<Square_Item>();
 
@@ -50,7 +50,7 @@ namespace Physsi___Comsci_Project
             public static MouseState LastClick;
         }
 
-        private class Square_Item
+        public class Square_Item
         {
             
             // storing information about the object
@@ -87,6 +87,7 @@ namespace Physsi___Comsci_Project
             { // Determines velocity for next frame
                 
                 Vector2 deltaVelocity = new Vector2(Acceleration.X * deltaTime.GetDeltaTime(), Acceleration.Y * deltaTime.GetDeltaTime());
+                
                 Velocity = Vector2.Add(Velocity, deltaVelocity);
 
             }
@@ -95,22 +96,31 @@ namespace Physsi___Comsci_Project
             { // determines position for next frame
 
                 Vector2 deltaPosition = new Vector2(Velocity.X * deltaTime.GetDeltaTime(), Velocity.Y * deltaTime.GetDeltaTime());
-                if (Vector2.Add(Position, deltaPosition).Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150)
-                {
-                    Position.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height-150;
-                } else
-                {
-                    Position = Vector2.Add(Position, deltaPosition);
-                    Update_Velocity();
-                }
 
-                
+                if (RB_COLLIDE.checkSquare(Position, deltaPosition, this))
+                {
+                    Position = new Vector2(Position.X, RB_COLLIDE.CollidedWith.Position.Y - 150);
+                }
+                else
+                {
+
+                    if (Vector2.Add(Position, deltaPosition).Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150)
+                    {
+                        Position.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150;
+                    }
+                    else
+                    {
+                        Position = Vector2.Add(Position, deltaPosition);
+                        Update_Velocity();
+                    }
+
+                }
             }
             
 
         }
 
-        private static Items itemList = new Items();
+        public static Items itemList = new Items();
 
         private static Square_Item GenerateDefaultSquare(ContentManager Content) // creates a default square item
         {
