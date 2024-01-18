@@ -10,7 +10,6 @@ using System.Net.Mail;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Physsi___Comsci_Project
 {
@@ -56,7 +55,7 @@ namespace Physsi___Comsci_Project
             // storing information about the object
             public Vector2 Position; 
             public Texture2D Sprite;
-
+            
 
             public Vector2 Start_Position;
             public Vector2 Position_Scaled; // position inside of the smaller screen for the RB editor
@@ -67,7 +66,9 @@ namespace Physsi___Comsci_Project
 
             public Vector2 Center;
 
-            
+            public Vector2 Force;
+
+
             public Vector2 Find_Center(Vector2 position) //  finds the center of the square 
             {
                 Vector2 to_center = new Vector2(Sprite.Width/2,Sprite.Height/2);
@@ -77,45 +78,35 @@ namespace Physsi___Comsci_Project
 
             public void Update() // update attributes for the object
             {
+                nextAcceleration();
+                nextVelocity();
+                nextPosition();
+            }
 
-                
-                Update_Position();
-                
+            public void Update_Force(Vector2 Force2)
+            {
+                Force = Vector2.Add(Force,Force2);
             }
             
-            private void Update_Velocity() // V = u + a * t
-            { // Determines velocity for next frame
-                
-                Vector2 deltaVelocity = new Vector2(Acceleration.X * deltaTime.GetDeltaTime(), Acceleration.Y * deltaTime.GetDeltaTime());
-                
-                Velocity = Vector2.Add(Velocity, deltaVelocity);
-
+            public void nextAcceleration()
+            {
+                Acceleration = Vector2.Divide(Force,Mass); // as F = M * A and so therefore A = F / M
             }
 
-            private void Update_Position() // updates the position by S_nextFrame = S_currentFrame + V * t
-            { // determines position for next frame
+            public void nextVelocity()
+            {
+                Velocity = Vector2.Add(Velocity,Acceleration);
+            }
 
-                Vector2 deltaPosition = new Vector2(Velocity.X * deltaTime.GetDeltaTime(), Velocity.Y * deltaTime.GetDeltaTime());
-
-                if (RB_COLLIDE.checkSquare(Position, deltaPosition, this))
+            public void nextPosition()
+            {
+                Position = Vector2.Add(Position, Velocity * deltaTime.GetDeltaTime());
+                if (RB_COLLIDE.checkSquare(Position, this) == true)
                 {
-                    Position = new Vector2(Position.X, RB_COLLIDE.CollidedWith.Position.Y - 150);
-                }
-                else
-                {
-
-                    if (Vector2.Add(Position, deltaPosition).Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150)
-                    {
-                        Position.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150;
-                    }
-                    else
-                    {
-                        Position = Vector2.Add(Position, deltaPosition);
-                        Update_Velocity();
-                    }
 
                 }
             }
+
             
 
         }
@@ -137,9 +128,11 @@ namespace Physsi___Comsci_Project
 
             Square.Velocity = new Vector2(0,0); // velocity of square
        
-            Square.Acceleration = new Vector2(0, Options_Settings.Gravity.Constant); // sets default acceleration to be X:0, Y:Gravitational Constant stored in Options_Settings
+            Square.Acceleration = new Vector2(0,0); // sets default acceleration to be X:0, Y:Gravitational Constant stored in Options_Settings
 
             Square.Center = Square.Find_Center(Square.Position); // finds the center of the square
+
+            Square.Force = new Vector2 (0, Options_Settings.Gravity.Constant * Square.Mass); // initial force applied
             
             return Square;
         }
