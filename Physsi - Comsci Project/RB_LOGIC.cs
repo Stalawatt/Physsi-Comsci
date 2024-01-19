@@ -37,12 +37,18 @@ namespace Physsi___Comsci_Project
         private static Vector2 TopLeft_RB_Preview = new Vector2(min_Y, min_X);
 
        
+
+       
     
         public class Items
         {
             public List<Square_Item> Square_Items = new List<Square_Item>();
 
         }
+
+        public static Items itemList = new Items();
+
+        private static QuadTree QuadTree = new QuadTree(2, new Vector2(0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width), new Vector2(0, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height), itemList.Square_Items);
 
         public static class Click
         {
@@ -100,10 +106,22 @@ namespace Physsi___Comsci_Project
 
             public void nextPosition()
             {
-                Position = Vector2.Add(Position, Velocity * deltaTime.GetDeltaTime());
-                if (RB_COLLIDE.checkSquare(Position, this) == true)
+                
+                Vector2 nextPosition = Velocity * deltaTime.GetDeltaTime();
+                if (RB_COLLIDE.checkSquare(Position, nextPosition, this))
                 {
-
+                    Position = new Vector2(Position.X, RB_COLLIDE.CollidedWith.Position.Y - 150);
+                } else
+                {
+                    if (Vector2.Add(Position, nextPosition).Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150)
+                    {
+                        Position.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 150;
+                    }
+                    else
+                    {
+                        Position = Vector2.Add(Position, nextPosition);
+                        
+                    }
                 }
             }
 
@@ -111,7 +129,7 @@ namespace Physsi___Comsci_Project
 
         }
 
-        public static Items itemList = new Items();
+        
 
         private static Square_Item GenerateDefaultSquare(ContentManager Content) // creates a default square item
         {
