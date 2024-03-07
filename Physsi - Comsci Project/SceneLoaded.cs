@@ -20,6 +20,7 @@ namespace Physsi___Comsci_Project
             scene_List[1] = "OPTIONS";
             scene_List[2] = "RIGIDBODY_EDITOR";
             scene_List[3] = "SCENEPLAYER";
+            scene_List[4] = "SOFTBODY_EDITOR";
             return;
         }
 
@@ -40,6 +41,7 @@ namespace Physsi___Comsci_Project
 
         }
         
+
 
 
 

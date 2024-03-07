@@ -162,8 +162,9 @@ namespace Physsi___Comsci_Project
         
         public static void Draw_RB_PREVIEW(SpriteBatch _spriteBatch) // draws the squares to the preview in the rigidbody editor
         {
-           
             
+
+
             foreach (Square_Item Square in itemList.Square_Items)
             { 
                 _spriteBatch.Draw(Square.Sprite, Square.Position_Scaled, Color.White);

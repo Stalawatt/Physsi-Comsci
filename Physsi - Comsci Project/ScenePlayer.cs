@@ -20,6 +20,8 @@ namespace Physsi___Comsci_Project
             public static Vector2 Position;
         }
 
+        public static string prevScene = "";
+
         public static class EndButton
         {
             public static Texture2D Sprite;
@@ -50,14 +52,22 @@ namespace Physsi___Comsci_Project
                 // send user to rigid-body editor scene
                 // load scene not needed as is already loaded
                 RB_LOGIC.Reset_Squares();
-                ChangeScene.changeTo("RIGIDBODY_EDITOR");
+                SB_LOGIC.resetCircleNodes();
+                ChangeScene.changeTo(prevScene);
 
             }
         }
 
         public static void draw_items(SpriteBatch _spriteBatch)
         {
-            RB_LOGIC.Draw_RB(_spriteBatch);
+            if (prevScene == "RIGIDBODY_EDITOR")
+            {
+                RB_LOGIC.Draw_RB(_spriteBatch);
+
+            } else if (prevScene == "SOFTBODY_EDITOR")
+            {
+                SB_LOGIC.Draw_SB(_spriteBatch);
+            }
         }
     }
 }

@@ -125,6 +125,9 @@ namespace Physsi___Comsci_Project
             } else if (SceneLoaded.scene_Loaded == "SCENEPLAYER")
             {
                 ScenePlayer.draw_scene(_spriteBatch);
+            } else if (SceneLoaded.scene_Loaded == "SOFTBODY_EDITOR")
+            {
+                SoftBody_Editor.Draw_SoftBody_Sprite(_spriteBatch);
             }
 
 
@@ -157,7 +160,12 @@ namespace Physsi___Comsci_Project
             {
                 ScenePlayer.handle_Click(Content, MouseCoords());
             }
-            
+            else if (SceneLoaded.scene_Loaded == "SOFTBODY_EDITOR")
+            {
+                SoftBody_Editor.handle_button_click_left(Content, MouseCoords());
+
+            }
+
         }
 
 

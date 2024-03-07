@@ -166,6 +166,8 @@ namespace Physsi___Comsci_Project
             else if (clicked_code == 1)
             {
                 // send user to soft-body editor scene
+                SoftBody_Editor.Load_SoftBody_Editor(Content);
+                ChangeScene.changeTo("SOFTBODY_EDITOR");
             }
             else if (clicked_code == 2)
             {
