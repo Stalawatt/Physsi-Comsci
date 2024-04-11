@@ -81,7 +81,7 @@ namespace Physsi___Comsci_Project
                     {
                         if (othernode != thisnode)
                         {
-                            thisnode.springList.Add(new Spring(thisnode, othernode , 0.01f, 1f) );
+                            thisnode.springList.Add(new Spring(thisnode, othernode , 0.1f, 0.01f) );
                         }
                     }
                 }
@@ -227,8 +227,8 @@ namespace Physsi___Comsci_Project
                 {
                     Vector2 nearestFloorPos = new Vector2(Position.X, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Radius * 2);
                     nearestFloorVector = ( Position - nearestFloorPos ) / Vector2.Distance(nearestFloorPos, Position);
-
-                    Velocity = Velocity - 2 * nearestFloorVector* (Vector2.Dot(Velocity, nearestFloorVector));
+                    Position.Y = Position.Y+nearestFloorVector.Y - 12.5f;
+                    Velocity = Velocity - 2 * nearestFloorVector * (Vector2.Dot(Velocity, nearestFloorVector));
                 }
                 
                 foreach (Node node in circle.CircleNodes)
@@ -241,22 +241,17 @@ namespace Physsi___Comsci_Project
                     {
                         float distance = pythagorasNodeDistance(node, this);
 
-                        if (distance < 25) // if intersecting
+                        if (distance < 25 && distance != 0) // if intersecting and distance not equal to 0 (avoid division by 0)
                         {
                             Vector2 PosA = this.Position + new Vector2(12.5f, 12.5f); // finds centre of this node
                             Vector2 PosB = node.Position + new Vector2(12.5f, 12.5f); // finds centre of other node
 
-                            Vector2 NormalisedDirVectorA = Vector2.Normalize(PosB - PosA) ;
-                            Vector2 NormalisedDirVectorB = -1 * Vector2.Normalize(PosB - PosA);
+                            Vector2 AtoBDir = ( PosB - PosA ) / distance;
+                            Vector2 BtoADir = ( PosA - PosB ) / distance;
 
+                            this.Position = this.Position - AtoBDir * (float)(12.5 - distance/2);
+                            node.Position = node.Position - AtoBDir * (float)(12.5 - distance/2);
 
-                            this.Position = PosB - NormalisedDirVectorA * (25 - distance)  / 2f;
-                            node.Position = PosA - NormalisedDirVectorB * (25 - distance) / 2f ;
-
-                            this.Velocity = this.Velocity - 2 * NormalisedDirVectorA * (Vector2.Dot(this.Velocity, NormalisedDirVectorA));
-                            node.Velocity = node.Velocity - 2 * NormalisedDirVectorB * (Vector2.Dot(this.Velocity, NormalisedDirVectorB));
-
-                            
                         }
                     }
 
@@ -278,11 +273,6 @@ namespace Physsi___Comsci_Project
 
 
         }
-
-
-
-
-
 
 
         public class Spring
@@ -313,10 +303,9 @@ namespace Physsi___Comsci_Project
             {
                 Vector2 PosA = nodeA.Position;
                 Vector2 PosB = nodeB.Position;
+    
 
-                Vector2 AtoB = PosB - PosA;
-
-                float Distance = Vector2.Distance(AtoB, PosA);
+                float Distance = Vector2.Distance(PosB, PosA);
 
                 return Distance;
             }
@@ -358,7 +347,7 @@ namespace Physsi___Comsci_Project
         
         public static void createCircleObj(ContentManager Content)
         {
-            Circle newCircle = new Circle(200, 2, new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 , GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2));
+            Circle newCircle = new Circle(200, 25, new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 , GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2));
             newCircle.createCircle(Content);
 
             Items.Circles.Add(newCircle);
