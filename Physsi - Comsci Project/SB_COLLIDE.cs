@@ -16,16 +16,14 @@ namespace Physsi___Comsci_Project
 {
     public class SB_COLLIDE
     {
-
         public class NodeCollisions
         {
             public static bool BoundaryCollision(SB_LOGIC.Node Node, Vector2 NextPos)
             {
-                if (NextPos.Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height + Node.Radius)
+                if (NextPos.Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Node.Radius * 2 )
                 {
-                    Node.Position.Y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Node.Radius;
-                    Node.Acceleration.Y = 0;
-                    Node.Velocity.Y = 0;
+                    
+
                     return true;
                 }
                 return false;

@@ -23,9 +23,9 @@ namespace Physsi___Comsci_Project
 
         public static class Gravity
         {
-            public static float Constant = 9.81f; 
+            public static float Constant = 0.1f; 
         }
        
-
+       
     }
 }

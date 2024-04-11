@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
+using static Physsi___Comsci_Project.SB_LOGIC;
 
 namespace Physsi___Comsci_Project
 {
@@ -36,7 +37,7 @@ namespace Physsi___Comsci_Project
 
            
             
-            public Vector2 CurrentForce;
+            public Vector2 CurrentForceInitial = new Vector2(0, Options_Settings.Gravity.Constant);
 
 
             
@@ -80,7 +81,7 @@ namespace Physsi___Comsci_Project
                     {
                         if (othernode != thisnode)
                         {
-                            thisnode.springList.Add(new Spring(thisnode, othernode , 0.3) );
+                            thisnode.springList.Add(new Spring(thisnode, othernode , 0.01f, 1f) );
                         }
                     }
                 }
@@ -102,87 +103,51 @@ namespace Physsi___Comsci_Project
 
             public void updateCircle() 
             {
+
                 // update force, velocity, acceleration and position
-                updateSpringForce();
-                updateAcceleration();
-                updateVelocity();
-                updatePosition();
-                
-            }
 
-            public void updateSpringForce()
-            {
-                foreach(Node node in CircleNodes)
+                foreach( Node node in CircleNodes)
                 {
-                    foreach (Spring spring in node.springList)
-                    {
-                        applyForce(spring.SpringForceFind(spring), node);
-                    }
+                    updateForce(node);
+                   
                 }
-            }
-            public void unapplyForce(Vector2 Force, Node node)
-            {
-                node.CurrentForce = Vector2.Subtract(node.CurrentForce, Force);
-            }
-
-            public void applyForce(Vector2 Force, Node node)
-            {
-                node.CurrentForce = Vector2.Add(node.CurrentForce , Force);
-            }
-
-            private void updateAcceleration()
-            {
-                // A = F/M 
 
                 foreach (Node node in CircleNodes)
                 {
-                    if (node.CurrentForce.Y < Options_Settings.Gravity.Constant )
-                    {
-                        node.CurrentForce.Y = Options_Settings.Gravity.Constant;
-                    }
-                    node.Acceleration = Vector2.Divide(node.CurrentForce, node.Mass);
-                }
-
-            }
-
-            private void updateVelocity ()
-            {
-                foreach(Node node in CircleNodes)
-                {
-
-                    node.Velocity = Vector2.Add(node.Velocity, node.Acceleration);
-                }
-            }
-
-
-            private void updatePosition()
-            {
-                foreach( Node node in CircleNodes)
-                {
-                    Vector2 NextPos = Vector2.Add(node.Position, node.Velocity);
                     
+                    updateVelocity(node);
+                    
+                }
 
-                    //throw new Exception(node.Acceleration.ToString());
-                    // CHECK FOR COLLISIONS
+                foreach (Node node in CircleNodes)
+                {
 
-                    // Use spacial partitioning if possible. otherwise just check against eachother
+                    updatePosition(node);
+                }
 
-                    if (SB_COLLIDE.NodeCollisions.BoundaryCollision(node, NextPos) == true)
-                    {
-                        // do nothing as the boundarycollision function takes care of boundaries
-
-                    } else
-                    {
-                        node.Position = NextPos;
-
-                    }
-
-                   
+                foreach (Node node in CircleNodes)
+                {
+                    node.resetForce();
 
                 }
             }
 
+            public void updateForce(Node node)
+            {
+                
+                node.updateForce();
+                
+            }
+           
+            public void updateVelocity(Node node)
+            {
+                node.updateVelocity();
+            }
 
+            public void updatePosition(Node node)
+            {
+                node.updatePosition(this);
+            }
 
         }
 
@@ -198,13 +163,16 @@ namespace Physsi___Comsci_Project
 
             public List<Spring> springList = new List<Spring>();
 
-            public Vector2 Acceleration = new Vector2(0,0);
+            
             public Vector2 Velocity = new Vector2(0,0);
 
             public float Mass;
 
+            public Vector2 nearestFloorVector;
+
+
             public Vector2 CurrentForce;
-            public Vector2 ForceConstant;
+            
 
             public Texture2D Sprite;
             public int Radius;
@@ -219,111 +187,184 @@ namespace Physsi___Comsci_Project
                 Sprite = sprite;
                 Radius = radius;
 
-                ForceConstant = new Vector2(0, Options_Settings.Gravity.Constant );
-
             }
 
-            
+
+            public void updateForce()
+            {
+                
+                CurrentForce.Y += Options_Settings.Gravity.Constant * Mass;
+                
+                foreach(Spring spring in springList)
+                {
+                    CurrentForce += spring.FindForce();
+                }
+            }
+            public void resetForce()
+            {
+                CurrentForce = Vector2.Zero;
+            }
+            public void addForce(Vector2 Force)
+            {
+                CurrentForce += Force;
+            }
+
+            public void updateVelocity()
+            {
+                Velocity += (CurrentForce * deltaTime.GetDeltaTime()) / Mass;
+                
+            }
+
+            public void updatePosition(Circle circle)
+            {
+                Position += Velocity * deltaTime.GetDeltaTime();
+                collisionCheck(circle);
+            }
          
+            public void collisionCheck(Circle circle)
+            {
+                if (Position.Y > GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Radius * 2 )
+                {
+                    Vector2 nearestFloorPos = new Vector2(Position.X, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - Radius * 2);
+                    nearestFloorVector = ( Position - nearestFloorPos ) / Vector2.Distance(nearestFloorPos, Position);
+
+                    Velocity = Velocity - 2 * nearestFloorVector* (Vector2.Dot(Velocity, nearestFloorVector));
+                }
+                
+                foreach (Node node in circle.CircleNodes)
+                {
+                    if (node == this || node.Position == this.Position)
+                    {
+                        return;
+                    }
+                    else 
+                    {
+                        float distance = pythagorasNodeDistance(node, this);
+
+                        if (distance < 25) // if intersecting
+                        {
+                            Vector2 PosA = this.Position + new Vector2(12.5f, 12.5f); // finds centre of this node
+                            Vector2 PosB = node.Position + new Vector2(12.5f, 12.5f); // finds centre of other node
+
+                            Vector2 NormalisedDirVectorA = Vector2.Normalize(PosB - PosA) ;
+                            Vector2 NormalisedDirVectorB = -1 * Vector2.Normalize(PosB - PosA);
+
+
+                            this.Position = PosB - NormalisedDirVectorA * (25 - distance)  / 2f;
+                            node.Position = PosA - NormalisedDirVectorB * (25 - distance) / 2f ;
+
+                            this.Velocity = this.Velocity - 2 * NormalisedDirVectorA * (Vector2.Dot(this.Velocity, NormalisedDirVectorA));
+                            node.Velocity = node.Velocity - 2 * NormalisedDirVectorB * (Vector2.Dot(this.Velocity, NormalisedDirVectorB));
+
+                            
+                        }
+                    }
+
+                    
+                }
+            }
+
+            private float pythagorasNodeDistance(Node nodeA, Node nodeB)
+            {
+                Vector2 PosA = nodeA.Position;
+                Vector2 PosB = nodeB.Position;
+
+                Vector2 AtoB = PosB - PosA;
+
+                float Distance = (float)(Math.Sqrt((double)(AtoB.X * AtoB.X + AtoB.Y * AtoB.Y)));
+
+                return Distance;
+            }
+
+
         }
+
+
+
+
+
+
 
         public class Spring
         {
 
-            public Node Node1;
-            public Node Node2;
-
-            public double SpringConst;
-
-            public double InitialLength;
-            public double CurrentLength;
-
-            public Vector2 SpringForce;
-
-            public Spring(Node node1, Node node2, double springConstant)
+            public Spring(Node node_a, Node node_b, float springconst, float dampingconst)
             {
-                Node1 = node1;
-                Node2 = node2;
-                SpringConst = springConstant;
+                nodeA = node_a;
+                nodeB = node_b;
+                springConst = springconst;
+                dampingConst = dampingconst;
 
-                InitialLength = calcDistOfNodes(node1,node2);
-                CurrentLength = InitialLength;
-            }
-
-            public double calcDistOfNodes(Node node1 , Node node2)
-            {
-                Vector2 PosA = node1.Position;
-                Vector2 PosB = node2.Position;
-
-                double DeltaX = Math.Pow(Math.Abs(PosA.X - PosB.X), 2);
-                double DeltaY = Math.Pow(Math.Abs(PosA.Y - PosB.Y), 2);
-
-
-                double distance = Math.Sqrt(DeltaX + DeltaY);
-
-                return distance;
+                initialLength = pythagorasNodeDistance(nodeA, nodeB);
             }
 
 
-            public Vector2 SpringForceFind (Spring spring)
-            {
-                Node node1 = spring.Node1;
-                Node node2 = spring.Node2;
 
-                return calcForceOfSpring(node1, node2);
+            Node nodeA;
+            Node nodeB;
+
+            float springConst;
+            float dampingConst;
+
+            float initialLength;
+
+
+            private float pythagorasNodeDistance(Node nodeA , Node nodeB)
+            {
+                Vector2 PosA = nodeA.Position;
+                Vector2 PosB = nodeB.Position;
+
+                Vector2 AtoB = PosB - PosA;
+
+                float Distance = Vector2.Distance(AtoB, PosA);
+
+                return Distance;
             }
 
 
-            public Vector2 calcForceOfSpring(Node node1, Node node2)
+            public Vector2 FindForce()
             {
+               
 
-                // F = k DeltaL
+                float distanceBetweenNodes = pythagorasNodeDistance(nodeA, nodeB);
 
-
-                Vector2 MidPoint = (node1.Position + node2.Position)/2;
-
-
-                double currentDist = calcDistOfNodes(node1, node2);
-                if (SpringConst == 0 || InitialLength == currentDist)
+                if (distanceBetweenNodes == initialLength)
                 {
+
                     return Vector2.Zero;
-                } 
+                }
+
+                float SpringForce = (distanceBetweenNodes - initialLength) * springConst;
+
+                Vector2 NormalisedDirectionVector = ( nodeB.Position - nodeA.Position ) / distanceBetweenNodes;
+
+                Vector2 VelocityDifference = nodeB.Velocity - nodeA.Velocity;
+
+                float Dotproduct = Vector2.Dot(NormalisedDirectionVector, VelocityDifference);
+
+                float DampingForce = Dotproduct * dampingConst;
+
+                float TotalForce = SpringForce + DampingForce;
+
+                Vector2 returnForce = TotalForce * NormalisedDirectionVector;
 
                 
                 
-                double multiplier = -1 * (currentDist - InitialLength);
-
-                Vector2 midToNode = MidPoint - node1.Position;
-
-
-
-                Vector2 ForceAppliedNode1 = new Vector2((float)(midToNode.X * multiplier),(float)(midToNode.Y * multiplier ));
-
-
-
-
-
-                return ForceAppliedNode1;
+                return returnForce;
             }
-
-
-            
 
         }
-
 
         
         public static void createCircleObj(ContentManager Content)
         {
-            Circle newCircle = new Circle(200, 10, new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 , GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2));
+            Circle newCircle = new Circle(200, 2, new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 , GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2));
             newCircle.createCircle(Content);
 
             Items.Circles.Add(newCircle);
 
         }
 
-
-    
 
         // Below this is for the scene player's logic
 
@@ -348,7 +389,7 @@ namespace Physsi___Comsci_Project
                 foreach(Node node in Circle.CircleNodes)
                 {
                     node.Position = node.InitialPosition;
-                    node.CurrentForce = Vector2.Zero;
+                    node.CurrentForce = Circle.CurrentForceInitial;
                 }
             }
         }
