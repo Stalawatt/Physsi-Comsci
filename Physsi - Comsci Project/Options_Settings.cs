@@ -19,6 +19,9 @@ namespace Physsi___Comsci_Project
         public static class AirResistance
         {
             public static bool state = false; // on or off (starts on off)
+            public static float airDensity = 0.0005f;
+            public static float dragCoefficientSquare = 1.05f;
+            public static float dragCoefficientCircle = 0.047f;
         }
 
         public static class Gravity

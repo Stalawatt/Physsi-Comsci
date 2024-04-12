@@ -132,6 +132,13 @@
 /processorParam:TextureFormat=Color
 /build:Options_Scene/Exit_Button.png
 
+#begin Options_Scene/Label.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Options_Scene/Label.spritefont
+
 #begin Options_Scene/Menu_Button.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -143,6 +150,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Options_Scene/Menu_Button.png
+
+#begin Options_Scene/MenuButton.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Options_Scene/MenuButton.spritefont
 
 #begin Options_Scene/numeric_Enter.png
 /importer:TextureImporter

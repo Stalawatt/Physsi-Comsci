@@ -160,6 +160,32 @@ namespace Physsi___Comsci_Project
             
         }
 
+        public static void DragClick(MouseState prevState)
+        {
+            MouseState currentState = Mouse.GetState();
+
+            int DeltaPosX = currentState.Position.X - prevState.Position.X;
+            int DeltaPosY = currentState.Position.Y - prevState.Position.Y;
+
+            Vector2 deltaPos = new Vector2(DeltaPosX, DeltaPosY);
+
+            foreach (SB_LOGIC.Circle circle in SB_LOGIC.Items.Circles)
+            {
+                foreach(SB_LOGIC.Node node in circle.CircleNodes)
+                {
+                    if (pythagoras(new Vector2(currentState.Position.X, currentState.Position.Y), node.Position + new Vector2(12.5f,12.5f)) < 25)
+                    {
+                        foreach (SB_LOGIC.Node Node in circle.CircleNodes)
+                        {
+                            Node.Position += deltaPos;
+                            Node.InitialPosition += deltaPos;
+                        }
+                    }
+                }
+            }
+
+        }
+
 
 
         private static double pythagoras(Vector2 positionA, Vector2 positionB)

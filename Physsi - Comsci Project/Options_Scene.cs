@@ -40,12 +40,28 @@ namespace Physsi___Comsci_Project
         {
             public static Texture2D Sprite; // sprite for button
             public static Vector2 Position = new Vector2(560, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 170); // position the button in centre and 50px from bottom
+            public static SpriteFont Font;
+            public static string ButtonText = "Menu";
+            public static Vector2 TextPosition = Position + new Vector2(325, 25);
         }
 
         private static class Option_change_BG
         {
             public static Texture2D Sprite; // background sprite for each option
             public static Vector2 Position = new Vector2(560, 200); // center each one in X, Y is to be added
+        }
+
+        private static class AirResText
+        {
+            public static SpriteFont Font;
+            public static string Label = "Air Resistance";
+            public static string LabelLeft = "ON";
+            public static string LabelRight = "OFF";
+
+            public static Vector2 LabelPos = new Vector2(0,0);
+            public static Vector2 LabelLeftPos = new Vector2(0,0);
+            public static Vector2 LabelRightPos = new Vector2(0,0);
+
         }
 
         private class Radial
@@ -111,8 +127,21 @@ namespace Physsi___Comsci_Project
 
             Radial_LEFT.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2) - 30, 230); // position in the middle of the option background
             Radial_RIGHT.Position = new Vector2((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2) + 170, 230); // position 200px to the right of the other radial
-            
-            
+
+
+
+            // Sprites for labels
+
+            AirResText.Font = Content.Load<SpriteFont>("Options_Scene/Label");
+            AirResText.LabelPos = Radial_LEFT.Position - new Vector2(300,-10);
+            AirResText.LabelLeftPos = Radial_LEFT.Position + new Vector2(75,10);
+            AirResText.LabelRightPos = Radial_RIGHT.Position + new Vector2(75, 10);
+
+
+            Menu_Button.Font = Content.Load<SpriteFont>("Options_Scene/MenuButton");
+
+
+
             if (Options_Settings.AirResistance.state == false)
             {
                 // Radial_LEFT is the sprite to have air resistance ON
@@ -152,7 +181,13 @@ namespace Physsi___Comsci_Project
                 _spriteBatch.Draw(Radial_LEFT.Sprite, Radial_LEFT.Position, Color.White); // swaps the positions, so the dot moves to the selected one
                 _spriteBatch.Draw(Radial_RIGHT.Sprite, Radial_RIGHT.Position, Color.White); // dot is on right
             }
-            
+
+            _spriteBatch.DrawString(AirResText.Font, AirResText.Label, AirResText.LabelPos, Color.Black);
+            _spriteBatch.DrawString(AirResText.Font, AirResText.LabelLeft, AirResText.LabelLeftPos, Color.Black);
+            _spriteBatch.DrawString(AirResText.Font, AirResText.LabelRight, AirResText.LabelRightPos, Color.Black);
+
+            _spriteBatch.DrawString(Menu_Button.Font, Menu_Button.ButtonText, Menu_Button.TextPosition, Color.Black);
+
         }
 
         public static void Handle_button_click(ContentManager Content, Vector2 mouse_Coords)
@@ -170,6 +205,10 @@ namespace Physsi___Comsci_Project
                 {
                     RigidBody_Editor.Load_RigidBody_Editor(Content);
                     ChangeScene.changeTo("RIGIDBODY_EDITOR");
+                } else if (Last_Scene.last_Scene == "SOFTBODY_EDITOR")
+                {
+                    SoftBody_Editor.Load_SoftBody_Editor(Content);
+                    ChangeScene.changeTo("SOFTBODY_EDITOR");
                 }
 
             }

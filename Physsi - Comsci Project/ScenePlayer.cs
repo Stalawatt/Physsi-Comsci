@@ -55,6 +55,17 @@ namespace Physsi___Comsci_Project
                 SB_LOGIC.resetCircleNodes();
                 ChangeScene.changeTo(prevScene);
 
+            } 
+
+            foreach (SB_LOGIC.Circle Circle in SB_LOGIC.Items.Circles)
+            {
+                foreach(SB_LOGIC.Node node in Circle.CircleNodes)
+                {
+                    if (Vector2.Distance(mouseCoords, node.Position + new Vector2(12.5f,12.5f)) <= 12.5) // if a node is clicked
+                    {
+
+                    }
+                }
             }
         }
 

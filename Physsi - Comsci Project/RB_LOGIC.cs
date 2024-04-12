@@ -89,14 +89,12 @@ namespace Physsi___Comsci_Project
                 nextPosition();
             }
 
-            public void Update_Force(Vector2 Force2)
-            {
-                Force = Vector2.Add(Force,Force2);
-            }
+            
             
             public void nextAcceleration()
             {
                 Acceleration = Vector2.Divide(Force,Mass); // as F = M * A and so therefore A = F / M
+                Acceleration -= new Vector2(0, AirResistance.CalculateAirResistanceSquareRB(this) / Mass);
             }
 
             public void nextVelocity()

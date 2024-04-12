@@ -198,6 +198,7 @@ namespace Physsi___Comsci_Project
                 foreach(Spring spring in springList)
                 {
                     CurrentForce += spring.FindForce();
+                    CurrentForce -= AirResistance.CalculateAirResistanceCircleSB(this);
                 }
             }
             public void resetForce()
@@ -230,33 +231,36 @@ namespace Physsi___Comsci_Project
                     Position.Y = Position.Y+nearestFloorVector.Y - 12.5f;
                     Velocity = Velocity - 2 * nearestFloorVector * (Vector2.Dot(Velocity, nearestFloorVector));
                 }
-                
-                foreach (Node node in circle.CircleNodes)
+                foreach (Circle Circle in Items.Circles)
                 {
-                    if (node == this || node.Position == this.Position)
+                    foreach (Node node in Circle.CircleNodes)
                     {
-                        return;
-                    }
-                    else 
-                    {
-                        float distance = pythagorasNodeDistance(node, this);
-
-                        if (distance < 25 && distance != 0) // if intersecting and distance not equal to 0 (avoid division by 0)
+                        if (node == this || node.Position == this.Position)
                         {
-                            Vector2 PosA = this.Position + new Vector2(12.5f, 12.5f); // finds centre of this node
-                            Vector2 PosB = node.Position + new Vector2(12.5f, 12.5f); // finds centre of other node
-
-                            Vector2 AtoBDir = ( PosB - PosA ) / distance;
-                            Vector2 BtoADir = ( PosA - PosB ) / distance;
-
-                            this.Position = this.Position - AtoBDir * (float)(12.5 - distance/2);
-                            node.Position = node.Position - AtoBDir * (float)(12.5 - distance/2);
-
+                            return;
                         }
-                    }
+                        else
+                        {
+                            float distance = pythagorasNodeDistance(node, this);
 
-                    
+                            if (distance < 25 && distance != 0) // if intersecting and distance not equal to 0 (avoid division by 0)
+                            {
+                                Vector2 PosA = this.Position + new Vector2(12.5f, 12.5f); // finds centre of this node
+                                Vector2 PosB = node.Position + new Vector2(12.5f, 12.5f); // finds centre of other node
+
+                                Vector2 AtoBDir = (PosB - PosA) / distance;
+                                Vector2 BtoADir = (PosA - PosB) / distance;
+
+                                this.Position = this.Position - AtoBDir * (float)(12.5 - distance / 2);
+                                node.Position = node.Position - AtoBDir * (float)(12.5 - distance / 2);
+
+                            }
+                        }
+
+
+                    }
                 }
+                
             }
 
             private float pythagorasNodeDistance(Node nodeA, Node nodeB)
@@ -347,7 +351,7 @@ namespace Physsi___Comsci_Project
         
         public static void createCircleObj(ContentManager Content)
         {
-            Circle newCircle = new Circle(200, 25, new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 , GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2));
+            Circle newCircle = new Circle(200, 36, new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 2 , GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 2));
             newCircle.createCircle(Content);
 
             Items.Circles.Add(newCircle);
@@ -379,10 +383,17 @@ namespace Physsi___Comsci_Project
                 {
                     node.Position = node.InitialPosition;
                     node.CurrentForce = Circle.CurrentForceInitial;
+                    node.Velocity = Vector2.Zero;
+                    
                 }
             }
         }
         
+
+        public static void ResetScene()
+        {
+            Items.Circles.Clear();
+        }
 
     }
 }

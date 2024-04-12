@@ -89,6 +89,21 @@ namespace Physsi___Comsci_Project
                 if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
                 {
                     RB_LOGIC.DragCLick(prevState);
+                } else if (SceneLoaded.scene_Loaded == "SOFTBODY_EDITOR")
+                {
+                    SoftBody_Editor.DragClick(prevState);
+                }
+            }
+
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                if (SceneLoaded.scene_Loaded == "RIGIDBODY_EDITOR")
+                {
+                    RB_LOGIC.ResetScene();
+                }
+                else if (SceneLoaded.scene_Loaded == "SOFTBODY_EDITOR")
+                {
+                    SB_LOGIC.ResetScene();
                 }
             }
 
